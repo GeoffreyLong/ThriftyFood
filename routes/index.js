@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
 
-
-mongoose.connect('mongodb://localhost/ThrifyFood', function (error) {
+mongoose.connect('mongodb://localhost/ThriftyFood', function (error) {
   if (error) {
       console.log(error);
   }
@@ -22,36 +21,44 @@ var FoodSchema = new Schema({
     address: String
 });
 
-//var Game = mongoose.model('games', GameSchema);
-var Game = mongoose.model('test', FoodSchema);
+var Food = mongoose.model('test', FoodSchema);
 
 var express = require('express');
 var app = express();
 
-// Temporary object used for testing
-var foodTemp = [{
-    portionsAvailable: 10,
-    timeRange: {start: null, end: null},
-    name: "Good Food",
-    images: [null],
-    description: "I heard this is good",
-    portionDefinition: "Pooptons of good food",
-    address: "We should probably make this an object later",
-  },{
-    portionsAvailable: 5,
-    timeRange: {start: null, end: null},
-    name: "Bad Food",
-    images: [null],
-    description: "I heard this is bad",
-    portionDefinition: "Pooptons of bad food",
-    address: "Penises",
-  }
-];
 
-/* GET home page. */
-app.get('/', function(req, res) {
-  res.render('index', { title: 'Food App', script: '/javascripts/index.js', 
-                        foods: foodTemp});
+Food.find().count(function(err, count){
+  if (err){
+    console.log(err)
+  }
+  else if (count == 0){
+    new Food({
+      portionsAvailable: 10,
+      timeRange: {start: null, end: null},
+      name: "Bad Food",
+      images: [null],
+      description: "I maed dis and it sux",
+      portionDefinition: "You get nothing and like it",
+      address: "This is an address",
+    }).save(function(err,saved){
+      if (err) console.log(err);
+      // console.log(JSON.stringify(saved));
+    });
+    
+    new Food({
+      portionsAvailable: 24,
+      timeRange: {start: null, end: null},
+      name: "Good Food",
+      images: [null],
+      description: "I heard this is good",
+      portionDefinition: "Pooptons of good food",
+      address: "We should probably make this an object later",
+    }).save(function(err,saved){
+      if (err) console.log(err);
+      // console.log(JSON.stringify(saved));
+    });
+
+  }
 });
 
 app.get('/landing', function(req, res){
@@ -59,24 +66,21 @@ app.get('/landing', function(req, res){
 })
 
 
-app.get('/play/:gameNumber', function(req, res){
-  var gameNumber = req.params.gameNumber;
-  console.log("Game Number = " + gameNumber);
-
-  //TODO need to check if user is authorized to play level
-  /*
-  Game.find({gameNumber: req.body.gameNumber}, function(error, response){
-    if (error){
-      console.log(error);
-      res.status(500).send(error);
+/* GET home page. */
+app.get('/', function(req, res) {
+  Food.find(function(err,foods){
+    if (err){
+      console.log(err);
+      res.status(500).send(err);
+    }  
+    else{
+      console.log(foods);
+      res.render('index', { title: 'Food App', script: '/javascripts/index.js', 
+                            food: foods});
     }
-
-    // TODO next
   });
-  */
-
-  res.render('play', { game: gameTemp, script: '/javascripts/play.js' });
 });
+
 
 module.exports = app;
 
