@@ -76,7 +76,7 @@ app.get('/', function(req, res) {
     else{
       console.log(foods);
       res.render('index', { title: 'Food App', script: '/javascripts/index.js', 
-                            food: foods});
+                            foods: foods});
     }
   });
 });
