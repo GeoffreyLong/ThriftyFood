@@ -29,21 +29,34 @@ var express = require('express');
 var app = express();
 
 // Temporary object used for testing
-var foodTemp = {
-  portionsAvailable: 10,
-  timeRange: {start: null, end: null},
-  name: "Good Food",
-  images: [null],
-  description: "I heard this is good",
-  portionDefinition: "Pooptons of good food",
-  address: "We should probably make this an object later",
-};
+var foodTemp = [{
+    portionsAvailable: 10,
+    timeRange: {start: null, end: null},
+    name: "Good Food",
+    images: [null],
+    description: "I heard this is good",
+    portionDefinition: "Pooptons of good food",
+    address: "We should probably make this an object later",
+  },{
+    portionsAvailable: 5,
+    timeRange: {start: null, end: null},
+    name: "Bad Food",
+    images: [null],
+    description: "I heard this is bad",
+    portionDefinition: "Pooptons of bad food",
+    address: "Penises",
+  }
+];
 
 /* GET home page. */
 app.get('/', function(req, res) {
   res.render('index', { title: 'Food App', script: '/javascripts/index.js', 
-                        food: foodTemp});
+                        foods: foodTemp});
 });
+
+app.get('/landing', function(req, res){
+  res.render('landing', {title: 'Food App', script: 'javascripts/landing.js'})
+})
 
 
 app.get('/play/:gameNumber', function(req, res){
