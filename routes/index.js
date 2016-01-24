@@ -219,6 +219,9 @@ app.get('/', function(req, res) {
     else{
       console.log(foods);
       
+      // TODO test / fix this... might not be right
+      // I'm not sure if it will iterate over all the instances or not
+      // Even if it does the render would be off then...
       Sellers.findById(foods.sellerId, function(err2,seller){
         if (err2){
           console.log(err2);
@@ -310,6 +313,23 @@ app.post('/users/submit', function(req, res){
       res.redirect("/");
     });
   }
+});
+
+
+app.get('/seller/:id', function(req,res){
+  var sellerId = req.params.sellerId;
+
+
+  Sellers.findById(sellerId, function(err,seller){
+    if (err){
+      console.log(err);
+      res.status(500).send(err);
+    }  
+    else{
+      // Any more information needed?
+      res.render('seller', { seller:seller });
+    }
+  });
 });
 
 module.exports = app;
