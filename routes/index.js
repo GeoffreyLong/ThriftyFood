@@ -65,6 +65,7 @@ Foods.find().count(function(err, count){
       description: "I maed dis and it sux",
       portionDefinition: "You get nothing and like it",
       address: "This is an address",
+      sellerId: mongoose.Types.ObjectId("56a4244bd496bd063c807d46"),
     }).save(function(err,saved){
       if (err) console.log(err);
       // console.log(JSON.stringify(saved));
@@ -78,6 +79,7 @@ Foods.find().count(function(err, count){
       description: "I heard this is good",
       portionDefinition: "Pooptons of good food",
       address: "We should probably make this an object later",
+      sellerId: mongoose.Types.ObjectId("56a4244bd496bd063c807d46"),
     }).save(function(err,saved){
       if (err) console.log(err);
       // console.log(JSON.stringify(saved));
@@ -91,6 +93,7 @@ Foods.find().count(function(err, count){
       description: "It's got bits of real panther in it",
       portionDefinition: "A dash",
       address: "Mount Olympus",
+      sellerId: mongoose.Types.ObjectId("56a4244bd496bd063c807d46"),
     }).save(function(err,saved){
       if (err) console.log(err);
       // console.log(JSON.stringify(saved));
@@ -134,7 +137,7 @@ Foods.find().count(function(err, count){
     });
     
     new Purchases({
-      foodId: mongoose.Types.ObjectId("56a4244bd496bd063c807d46"),
+      foodId:  mongoose.Types.ObjectId("56a4244bd496bd063c807d46"),
       userId: mongoose.Types.ObjectId("56a4244bd496bd063c807d46"),
       sellerId: mongoose.Types.ObjectId("56a4244bd496bd063c807d46"),
       quantity: 5,
@@ -174,6 +177,10 @@ app.get('/', function(req, res) {
     }
   });
 });
+
+app.get('/food/new', function(req, res){
+  res.render('newfood', {title: 'Food App', script: 'javascripts/landing.js'})
+})
 
 
 module.exports = app;
