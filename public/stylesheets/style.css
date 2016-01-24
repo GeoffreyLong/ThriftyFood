@@ -8,5 +8,45 @@ a {
 }
 
 .food-item-container {
+  max-height:100%;
+  display: block;
+  position: relative;
+  left: 0;
+  right: 0;
+}
 
+.food-img {
+  /*display: table-cell;*/
+  /*color: #fff;*/
+  /*vertical-align: middle;*/
+  /*width: 120px;*/
+
+  /*max-width: 100%;*/
+  /*max-height: 100%;*/
+
+  /*margin: 0;*/
+  /*padding: 0;*/
+  /*height: 80px;*/
+  /*background-size: 100%;*/
+  padding:0;
+  margin:0;
+  width:49%;
+  /*min-width:350px;*/
+  vertical-align:bottom;
+}
+
+.food-info {
+  /*display: table-cell;*/
+  /*color: #000;*/
+  /*vertical-align: middle;*/
+  /*width: 280px;*/
+  /*padding: 0 10px;*/
+  width:49%;
+  min-width:350px;
+  display:inline-block;
+
+  padding:40px;
+  -moz-box-sizing:border-box;
+  box-sizing:border-box;
+  color:white;
 }

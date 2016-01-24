@@ -8,7 +8,7 @@ block content
   //  [test](https://google.com)
 
   each f in foods
-    +food_box(f)
+    +food_display(f)
 
 mixin food_box(food)
   ul
@@ -17,10 +17,18 @@ mixin food_box(food)
     li= food.description
     li
       - var userEndpoint = '/users/' + food.sellerId
+        //console.log(food.sellerId)
       a(href=userEndpoint) Seller
 
 mixin food_display(food)
-  div
-    - var img = (typeof food.image === 'undefined') ? 'img/food.jpg' : food.image
-    img(src=img)
+  div(class=['span4', 'food-item-container', 'col-xs-4'])
+    - var img = 'img/food.jpg'
+    img(src=img, class='img-responsive')
+    //div(class=['food-item-img'])
+    //  - var img = 'img/food.jpg'
+    //  img(src=img, class='.food-img')
+    //
+    //div(class=['food-item-info', 'span4'])
+    //  p text
+
 
