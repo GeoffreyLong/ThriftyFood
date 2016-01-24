@@ -132,10 +132,10 @@ Foods.find().count(function(err, count){
             new Foods({
               portionsAvailable: 10,
               timeRange: {start: null, end: null},
-              name: "Bad Food",
+              name: "Fish Salad Spectaculare",
               images: [null],
-              description: "I maed dis and it sux",
-              portionDefinition: "You get nothing and like it",
+              description: "A flaky slice of heaven that simply melts in your mouth.",
+              portionDefinition: "6oz Fish, 6oz salad",
               price: 7.80,
               address: {
                 country: "Canada",
@@ -152,10 +152,10 @@ Foods.find().count(function(err, count){
               new Foods({
                 portionsAvailable: 24,
                 timeRange: {start: null, end: null},
-                name: "Good Food",
+                name: "Pancakes",
                 images: [null],
-                description: "I heard this is good",
-                portionDefinition: "Pooptons of good food",
+                description: "Buttery deliciousness; rated best in MTL (syrup optional)",
+                portionDefinition: "4 pancakes",
                 price: 5.00,
                 address: {
                   country: "Canada",
