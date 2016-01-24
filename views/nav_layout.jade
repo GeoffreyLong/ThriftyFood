@@ -1,5 +1,11 @@
 extends base_layout
 
+div
+  ul(id='user-dropdown', class='dropdown-content')
+    li
+      a(href='#!') username
+    li
+      a(href='#!') Logout
 
 block nav
   nav(class=['blue-grey darken-2'])
@@ -7,25 +13,25 @@ block nav
       div(class='std-nav-margins')
         a(href='/', class='brand-logo') FOOD
         ul(class=['right', 'hide-on-med-and-down'])
-          - if(!curUserName)
-              li
-                a(href='/users/new') CREATE ACCOUNT
-              li
-                a(href='/users/login') LOGIN
-          - else
-              - var userEndpoint = '/users/' + curUserId
-              li
-                a(href=userEndpoint) #{curUserName}
-              li
-                a(href='/users/logout') LOGOUT
           - if(curUserType == 'seller')
-              li
-                a(href='/food/new') SELL
+            li
+              a(href='/food/new') SELL
+          - if(!curUserName)
+            li
+              a(href='/users/new') CREATE ACCOUNT
+            li
+              a(href='/users/login') LOGIN
+          - else
+            - var userEndpoint = '/users/' + curUserId
+            li
+              a(href='/users/logout') LOGOUT
+            li
+              a(class=['dropdown-button', 'btn'], href='#!', data-activates='user-dropdown') #{curUserName}
 
 block footer
 
   div(class=['fixed-action-btn', 'food-action-btn'])
-    a(class=['btn', 'btn-floating', 'btn-large', 'red', 'waves-effect', 'modal-trigger'])
+    a(class=['btn', 'btn-floating', 'btn-large', 'teal', 'waves-effect', 'modal-trigger'])
       i(class='material-icons') more_vert
 
     ul
