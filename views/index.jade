@@ -3,9 +3,9 @@ extends nav_layout
 block content
   h1= title
   p Welcome to #{title}
-  //p #{food.name}
-  //p
-  //  = foods.name
+
+  //:markdown
+  //  [test](https://google.com)
 
   each f in foods
     +food_box(f)
@@ -16,7 +16,7 @@ mixin food_box(food)
     li= food.portionsAvailable
     li= food.description
     li
-      =:markdown
-
+      :markdown
+        [test](https://google.com)
 
 
