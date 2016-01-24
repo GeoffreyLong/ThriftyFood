@@ -1,13 +1,13 @@
 extends base_layout
 
-div
+block nav
   ul(id='user-dropdown', class='dropdown-content')
     li
-      a(href='#!') username
+      a(href='#!') Profile
+    li(class='divider')
     li
-      a(href='#!') Logout
+      a(href='/users/logout') Logout
 
-block nav
   nav(class=['blue-grey darken-2'])
     div(class='nav-wrapper')
       div(class='std-nav-margins')
@@ -24,9 +24,7 @@ block nav
           - else
             - var userEndpoint = '/users/' + curUserId
             li
-              a(href='/users/logout') LOGOUT
-            li
-              a(class=['dropdown-button', 'btn'], href='#!', data-activates='user-dropdown') #{curUserName}
+              a(class=['dropdown-button', 'btn'], href='#', data-activates='user-dropdown') #{curUserName}
 
 block footer
 
