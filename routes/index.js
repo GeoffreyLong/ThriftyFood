@@ -279,6 +279,7 @@ app.post('/users/submit', function(req, res){
         res.status(500).send(err);
       }
       req.session.id = saved._id;
+      curId = saved._id;
       res.redirect("/");
     });
   }
@@ -291,6 +292,7 @@ app.post('/users/submit', function(req, res){
         res.status(500).send(err);
       }
       req.session.id = saved._id;
+      curId = saved._id;
       res.redirect("/");
     });
   }
