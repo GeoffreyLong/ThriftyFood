@@ -4,14 +4,6 @@ block content
   div(class=['row', 'std-nav-margins'])
     each food in foods
       +food_display(food, 's6')
-//  - for(var i = 0; i < foods.length; i++)
-    //
-    //  if (i+1) == foods.length
-    //        +food_display(foods[i], 's12')
-    //      else
-    //        +food_display(foods[i], 's6')
-    //        +food_display(foods[i+1], 's6')
-    //      - i++
 
 
 mixin food_display(food, col_span)
@@ -26,21 +18,32 @@ mixin food_display(food, col_span)
       div(class=['card-content'])
         span(class=['card-title', 'activator'])
           i(class=['material-icons', 'right', 'small']) more_vert
-          h5 #{food.description}
-          h6 #{food.portionsAvailable + " " + food.portionDefinition}
+          h5(class='activator') #{food.description}
 
       div(class=['card-reveal', 'blue-grey', 'lighten-5'])
         div(class=['card-title', 'grey-text', 'text-darken-4'])
           i(class=['material-icons', 'right', 'small']) close
           h5 #{food.name}
           h6 #{food.description}
+          h6 #{food.portionsAvailable + " " + food.portionDefinition}
+          h6 #{"$" + food.price}
+
         span(class='content-bottom')
           div(class=['row'])
-            div(class=['payment-errors', 'col'])
-              input(name='number', placeholder='Credit Card Number')
-              input(name='cvc', placeholder='CVC')
-              input(name='exp-date', placeholder='Expiration Date')
-              input(name='exp-month', placeholder='Expiration Month')
+            div(class=['payment-errors'])
+              //input(name='quantity', type='number', size='10', value='1')
+              div(class='row')
+                input(name='quantity', type='number', size='10', value='1')
+              div(class='row')
+                div(class=['col', 's6'])
+                  input(name='number', placeholder='Credit Card Number')
+                div(class=['col', 's6'])
+                  input(name='cvc', placeholder='CVC')
+              div(class='row')
+                div(class=['col', 's6'])
+                  input(type='text', name='exp-date', placeholder='Expiration Date')
+                div(class=['col', 's6'])
+                  input(type='text', name='exp-month', placeholder='Expiration Month')
               button(class=['btn-large', 'waves-effect',
                 'waves-light', 'col', 's12'], type='submit', name='action') Purchase your food.
                 i(class=['material-icons', 'right']) send
