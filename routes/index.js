@@ -254,7 +254,8 @@ app.get('/', function(req, res) {
 });
 
 app.get('/food/new', function(req, res){
-  res.render('newfood');
+  res.render('newfood', {curUserName: req.session.userName,
+                        curUserType: req.session.type, curUserId: req.session.userId});
 })
 
 app.post('/food/submit', function(req, res){
