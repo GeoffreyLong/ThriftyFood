@@ -1,4 +1,13 @@
 var mongoose = require('mongoose');
+var bodyParser = require('body-parser'); 
+var expressSession = require('express-session');
+var cookieParser = require('cookie-parser');
+var express = require('express');
+var app = express();
+
+app.use(cookieParser());
+app.use(expressSession({secret:'seekraets'}));
+app.use(bodyParser());
 
 mongoose.connect('mongodb://localhost/ThriftyFood', function (error) {
   if (error) {
@@ -55,8 +64,6 @@ var Users = mongoose.model('users', UserSchema);
 var Sellers = mongoose.model('sellers', SellerSchema);
 var Purchases = mongoose.model('purchases', PurchaseSchema);
 
-var express = require('express');
-var app = express();
 
 // Temporary code for seeding
 Foods.find().count(function(err, count){
@@ -178,6 +185,7 @@ curId = null;
 
 /* GET home page. */
 app.get('/', function(req, res) {
+  console.log(req.session.id);
   // TODO filter by pickup date... don't want to display old items
   Foods.find(function(err,foods){
     if (err){
@@ -257,7 +265,7 @@ app.post('/users/submit', function(req, res){
         console.log(err);
         res.status(500).send(err);
       }
-      curId = saved._id;
+      req.session.id = saved._id;
       res.redirect("/");
     });
   }
@@ -269,7 +277,7 @@ app.post('/users/submit', function(req, res){
         console.log(err);
         res.status(500).send(err);
       }
-      curId = saved._id; 
+      req.session.id = saved._id;
       res.redirect("/");
     });
   }
