@@ -3,20 +3,34 @@ extends base_layout
 
 block nav
   nav(class=['blue-grey darken-2'])
-    div(class=['nav-wrapper'])
-      a(href='/', class='brand-logo') FOOD
-      ul(class=['right', 'hide-on-med-and-down'])
-        - if(!curUserName)
-            li
-              a(href='/users/new') CREATE ACCOUNT
-            li
-              a(href='/users/login') LOGIN
-        - else
-            - var userEndpoint = '/users/' + curUserId
-            li
-              a(href=userEndpoint) #{curUserName}
-            li
-              a(href='/users/logout') LOGOUT
-        - if(curUserType == 'seller')
-            li
-              a(href='/food/new') SELL
+    div(class='nav-wrapper')
+      div(class='std-nav-margins')
+        a(href='/', class='brand-logo') FOOD
+        ul(class=['right', 'hide-on-med-and-down'])
+          - if(!curUserName)
+              li
+                a(href='/users/new') CREATE ACCOUNT
+              li
+                a(href='/users/login') LOGIN
+          - else
+              - var userEndpoint = '/users/' + curUserId
+              li
+                a(href=userEndpoint) #{curUserName}
+              li
+                a(href='/users/logout') LOGOUT
+          - if(curUserType == 'seller')
+              li
+                a(href='/food/new') SELL
+
+block footer
+
+  div(class=['fixed-action-btn', 'food-action-btn'])
+    a(class=['btn-floating', 'btn-large', 'blue-grey'])
+      i(class='material-icons') mode_edit
+    ul
+      li(class=['btn-floating blue'])
+        a(href='https://github.com/GeoffreyLong/ThriftyFood')
+          i(class='fa fa-github')
+      li(class=['btn-floating red'])
+        a(href='mailto:charlielbloomfield@gmail.com?Subject=Food%20App')
+          i(class='material-icons') email
