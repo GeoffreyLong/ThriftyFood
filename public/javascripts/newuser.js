@@ -1,3 +1,5 @@
+// TODO refactor and make cleaner
+// Also fix the username < 5 but still entering bug
 $(document).ready(function(){
   $('button[type="submit"]').prop('disabled', true);
   $('body').on('keyup', '.userfield', function(){
