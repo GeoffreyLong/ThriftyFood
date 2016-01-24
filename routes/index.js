@@ -129,10 +129,10 @@ Foods.find().count(function(err, count){
               portionDefinition: "You get nothing and like it",
               price: 7.80,
               address: {
-                country: Canada,
-                state: QC,
-                city: Montreal,
-                street: Durocher,
+                country: "Canada",
+                state: "QC",
+                city: "Montreal",
+                street: "Durocher",
                 number: 3625, // since you could probably have like 114A
               },
               sellerId: sellerID1,
@@ -149,10 +149,10 @@ Foods.find().count(function(err, count){
                 portionDefinition: "Pooptons of good food",
                 price: 5.00,
                 address: {
-                  country: Canada,
-                  state: QC,
-                  city: Montreal,
-                  street: Durocher,
+                  country: "Canada",
+                  state: "QC",
+                  city: "Montreal",
+                  street: "Durocher",
                   number: 3515, // since you could probably have like 114A
                 },
                 sellerId: sellerID1,
@@ -168,10 +168,10 @@ Foods.find().count(function(err, count){
                   portionDefinition: "A dash",
                   price: 10000.00,
                   address: {
-                    country: Canada,
-                    state: QC,
-                    city: Montreal,
-                    street: Aylmer,
+                    country: "Canada",
+                    state: "QC",
+                    city: "Montreal",
+                    street: "Aylmer",
                     number: 2500, // since you could probably have like 114A
                   },
                   sellerId: sellerID1,
@@ -232,11 +232,9 @@ app.get('/', function(req, res) {
           console.log(err2);
           res.status(500).send(err2);
         }  
-        else{
-          res.render('index', { title: 'Food App', script: '/javascripts/index.js', 
-                                foods:foods, seller:seller, curUserName: req.session.userName,
-                                curUserType: req.session.type, curUserId: req.session.userId});
-        }
+        res.render('index', { title: 'Food App', script: '/javascripts/index.js', 
+                              foods:foods, seller:seller, curUserName: req.session.userName,
+                              curUserType: req.session.type, curUserId: req.session.userId});
       });
     }
   });
