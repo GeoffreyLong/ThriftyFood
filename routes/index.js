@@ -227,11 +227,16 @@ app.get('/', function(req, res) {
       }
 
       // TODO test 
-      Sellers.find({"_id": {$in: sellerIds}}, function(err2,seller){
+      Sellers.aggregate([{$match: {_id: {$in: sellerIds}}}, 
+                        {$unwind: "$reviews"},
+                        {$group: {_id:"$_id", userName:{$first: "$userName"},
+                                   avgRating: {$avg: "$reviews.rating"}}}] , function(err2,seller){
+        
         if (err2){
           console.log(err2);
           res.status(500).send(err2);
-        }  
+        }
+        console.log(JSON.stringify(seller));
         res.render('index', { title: 'Food App', script: '/javascripts/index.js', 
                               foods:foods, seller:seller, curUserName: req.session.userName,
                               curUserType: req.session.type, curUserId: req.session.userId});
