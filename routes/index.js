@@ -210,7 +210,7 @@ app.get('/', function(req, res) {
         else{
           console.log(seller);
           res.render('index', { title: 'Food App', script: '/javascripts/index.js', 
-                                foods: foods, seller:seller, curUserName: req.session.userName,
+                                foods:foods, seller:seller, curUserName: req.session.userName,
                                 curUserType: req.session.type});
         }
       });
@@ -258,7 +258,7 @@ app.post('/food/submit', function(req, res){
 })
 
 app.get('/users/new', function(req,res){
-  res.render('newuser');
+  res.render('newuser', {script: '../javascripts/newuser.js'})
 });
 
 
