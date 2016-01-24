@@ -340,7 +340,6 @@ app.post('/users/submit', function(req, res){
   }
 });
 
-
 app.get('/seller/:id', function(req,res){
   var sellerId = req.params.sellerId;
 
@@ -355,6 +354,10 @@ app.get('/seller/:id', function(req,res){
       res.render('seller', { seller:seller });
     }
   });
+});
+
+app.get('/users/login', function(req,res){
+  res.render('login')
 });
 
 app.get('/users/logout', function(req,res){
