@@ -311,7 +311,6 @@ app.get('/users/new', function(req,res){
 
 // TODO handle mismatching passwords in javascript file
 app.post('/users/submit', function(req, res){
-  console.log(req.body)
   if (req.body.usersubmit){
     new Users({
       userName: req.body.username,
@@ -368,18 +367,17 @@ app.post('/users/login', function(req,res){
     if (err) res.status(500).send(err);
     if (user.length != 0){
       console.log(user);
-      req.session.userId = user._id;
-      req.session.userName = user.userName;
+      req.session.userId = user[0]._id;
+      req.session.userName = user[0].userName;
       req.session.type = 'user';
       res.redirect('/');
     }
     else{
       Sellers.find({'userName':req.body.username}, function(err2, seller){
         if (err2) res.status(500).send(err2);
-        console.log(seller);
         if (seller.length != 0){
-          req.session.userId = seller._id;
-          req.session.userName = seller.userName;
+          req.session.userId = seller[0]._id;
+          req.session.userName = seller[0].userName;
           req.session.type = 'seller';
           res.redirect('/');
         }
