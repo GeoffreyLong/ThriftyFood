@@ -236,7 +236,6 @@ app.get('/', function(req, res) {
           console.log(err2);
           res.status(500).send(err2);
         }
-        console.log(JSON.stringify(seller));
         res.render('index', { title: 'Food App', script: '/javascripts/index.js', 
                               foods:foods, seller:seller, curUserName: req.session.userName,
                               curUserType: req.session.type, curUserId: req.session.userId});
@@ -360,8 +359,39 @@ app.get('/seller/:id', function(req,res){
 });
 
 app.get('/users/login', function(req,res){
-  res.render('login')
+  res.render('login');
 });
+
+app.post('/users/login', function(req,res){
+  console.log(req.body);
+  Users.find({'userName':req.body.username}, function(err, user){
+    if (err) res.status(500).send(err);
+    if (user.length != 0){
+      console.log(user);
+      req.session.userId = user._id;
+      req.session.userName = user.userName;
+      req.session.type = 'user';
+      res.redirect('/');
+    }
+    else{
+      Sellers.find({'userName':req.body.username}, function(err2, seller){
+        if (err2) res.status(500).send(err2);
+        console.log(seller);
+        if (seller.length != 0){
+          req.session.userId = seller._id;
+          req.session.userName = seller.userName;
+          req.session.type = 'seller';
+          res.redirect('/');
+        }
+        else{
+          //TODO should give an error message
+          res.redirect('/');
+        }
+      });
+    }
+  })
+});
+
 
 app.get('/users/logout', function(req,res){
   // TODO not sure if this is the best way to handle this
