@@ -4,6 +4,20 @@
   margin: 0 !important;
 }
 
+.food-card{
+  overflow: hidden;
+}
+
+.food-card-reveal{
+  display: none;
+  transform: translateY(0px);
+}
+
 .food-title{
   background: rgba(55, 55, 55, 0.5);
+}
+
+.food-action-btn{
+  bottom: 25px;
+  right: 25px;
 }

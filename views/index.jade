@@ -5,20 +5,23 @@ block content
     each food in foods
       +food_display2(food, 's6')
 
-mixin food_display2(food, columns)
-  div(class=['col', columns])
-    div(class='card')
-      div(class='card-image food-image')
-        img(src='img/food.jpg')
+mixin food_display2(food, col_span)
+  div(class=['col', col_span])
+    div(class=['card', 'food-card'])
+
+      div(class=['card-image'])
+        img(class='activator', src='img/food.jpg')
         span(class=['card-title'])
           a(class=['waves-light', 'btn', 'blue-grey', 'darken-2']) #{food.name}
-      div(class='card-content')
-        div(class='row')
-          div(class='left')
-            h5 #{food.description}
-            h6 #{food.portionsAvailable + " " + food.portionDefinition}
-            //h3 #{}
-          div(class='right')
-            div(class='chip')
-              img(src='img/user.jpg')
+
+      div(class=['card-content'])
+        span(class=['card-title', 'activator'])
+          i(class=['material-icons', 'right', 'small']) more_vert
+          h5 #{food.description}
+          h6 #{food.portionsAvailable + " " + food.portionDefinition}
+
+      div(class=['card-reveal'])
+        span(class=['card-title', 'grey-text', 'text-darken-4'])
+          i(class=['material-icons', 'right', 'small']) close
+          h5 #{food.name}
 

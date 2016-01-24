@@ -4,13 +4,17 @@ html(lang = 'en')
     title= title
     link(rel='stylesheet', href='/css/style.css')
     link(rel='stylesheet', href='/css/materialize.css')
-    //link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css
+    link(href="https://fonts.googleapis.com/icon?family=Material+Icons", rel="stylesheet")
     script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js")
     script(src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js")
     script(type='text/javascript', src=script)
+    script(type='text/javascript', src='js/materialize.js')
 
 body
   block nav
   block content
+  div(class=['fixed-action-btn', 'food-action-btn'])
+    a(class=['btn-floating', 'btn-large', 'blue-grey'])
+      i(class='material-icons') mode_edit
 
 
