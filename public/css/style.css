@@ -1,42 +1,8 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
-
-a {
-  color: #00B7FF;
-}
-
 .nopadding {
   padding: 0 !important;
   margin: 0 !important;
 }
 
-.food-item-container {
-  outline: solid 1px;
-  max-height:100%;
-  display: block;
-  position: relative;
-  left: 0;
-  right: 0;
-}
-
-.food-item-img {
-  max-height:100%;
-  display: block;
-  position: relative;
-  left: 0;
-  right: 0;
-}
-
-.food-item-info{
-  /*background-color: grey;*/
-}
-
-.food-item-title{
-  text-align: center;
-}
-
-.food-item-description{
-  text-align: center;
+.food-title{
+  background: rgba(55, 55, 55, 0.5);
 }
