@@ -83,6 +83,74 @@ Foods.find().count(function(err, count){
       // console.log(JSON.stringify(saved));
     });
 
+    new Foods({
+      portionsAvailable: 1,
+      timeRange: {start: null, end: null},
+      name: "Ambrosia",
+      images: [null],
+      description: "It's got bits of real panther in it",
+      portionDefinition: "A dash",
+      address: "Mount Olympus",
+    }).save(function(err,saved){
+      if (err) console.log(err);
+      // console.log(JSON.stringify(saved));
+    });
+
+    new Users({ 
+      userName: "User_One",
+    }).save(function(err,saved){
+      if (err) console.log(err);
+      // console.log(JSON.stringify(saved));
+    });
+    new Users({ 
+      userName: "User_Two",
+    }).save(function(err,saved){
+      if (err) console.log(err);
+      // console.log(JSON.stringify(saved));
+    });
+    new Users({ 
+      userName: "Bobby_Tables",
+    }).save(function(err,saved){
+      if (err) console.log(err);
+      // console.log(JSON.stringify(saved));
+    });
+
+    new Sellers({
+      userName: "Seller_One",
+      currentFoodItems: [mongoose.Types.ObjectId("56a3ff94190f46312a882f6f")],
+      pastFoodItems: [mongoose.Types.ObjectId("56a3ffbb2619fd4a2a5a8e5a")],  
+      reviews: [{
+        rating: 1,
+        comment: "I don't like her cooking... I don't care if she's my mom, she gets one star",
+        reviewerId: mongoose.Types.ObjectId("56a4244bd496bd063c807d45"),
+      },{
+        rating: 2,
+        comment: "Good kid, but Maad City",
+        reviewerId: mongoose.Types.ObjectId("56a4244bd496bd063c807d46"),
+      },],
+    }).save(function(err,saved){
+      if (err) console.log(err);
+      // console.log(JSON.stringify(saved));
+    });
+    
+    new Purchases({
+      foodId: mongoose.Types.ObjectId("56a4244bd496bd063c807d46"),
+      userId: mongoose.Types.ObjectId("56a4244bd496bd063c807d46"),
+      sellerId: mongoose.Types.ObjectId("56a4244bd496bd063c807d46"),
+      quantity: 5,
+    }).save(function(err,saved){
+      if (err) console.log(err);
+      // console.log(JSON.stringify(saved));
+    });
+    new Purchases({
+      foodId: mongoose.Types.ObjectId("56a4244bd496bd063c807d46"),
+      userId: mongoose.Types.ObjectId("56a4244bd496bd063c807d46"),
+      sellerId: mongoose.Types.ObjectId("56a4244bd496bd063c807d46"),
+      quantity: 1,
+    }).save(function(err,saved){
+      if (err) console.log(err);
+      // console.log(JSON.stringify(saved));
+    });
   }
 });
 
