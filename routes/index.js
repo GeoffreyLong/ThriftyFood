@@ -412,7 +412,6 @@ app.post('/users/login', function(req,res){
         else{
           //TODO should give an error message
           res.redirect('/users/login');
-          res.redirect('/');
         }
       });
     }
