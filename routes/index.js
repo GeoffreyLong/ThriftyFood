@@ -311,20 +311,6 @@ app.get('/users/new', function(req,res){
 app.post('/users/submit', function(req, res){
   console.log(req.body)
   if (req.body.usersubmit){
-    new Sellers({
-      userName: req.body.username,
-    }).save(function(err,saved){
-      if (err){
-        console.log(err);
-        res.status(500).send(err);
-      }
-      req.session.userId = saved._id;
-      req.session.userName = saved.userName;
-      req.session.type = 'seller';
-      res.redirect("/");
-    });
-  }
-  else{
     new Users({
       userName: req.body.username,
     }).save(function(err,saved){
@@ -335,6 +321,20 @@ app.post('/users/submit', function(req, res){
       req.session.userId = saved._id;
       req.session.userName = saved.userName;
       req.session.type = 'user';
+      res.redirect("/");
+    });
+  }
+  else{
+    new Sellers({
+      userName: req.body.username,
+    }).save(function(err,saved){
+      if (err){
+        console.log(err);
+        res.status(500).send(err);
+      }
+      req.session.userId = saved._id;
+      req.session.userName = saved.userName;
+      req.session.type = 'seller';
       res.redirect("/");
     });
   }
