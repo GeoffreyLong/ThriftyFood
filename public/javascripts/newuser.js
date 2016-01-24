@@ -2,7 +2,7 @@ $(document).ready(function(){
   $('input[type="submit"]').prop('disabled', true);
   $('body').on('keyup', '.userfield', function(){
     var check = $(this);
-    if (check.val().length >= 5){
+    if (check.val().length >= 5 || check.val().length == 0){
       check.removeClass('invalid');
     }
     else{
@@ -11,7 +11,7 @@ $(document).ready(function(){
   }); 
   $('body').on('keyup', '.pass', function(){
     var check = $(this);
-    if (check.val().length >= 5){
+    if (check.val().length >= 5 || check.val().length == 0){
       check.removeClass('invalid');
     }
     else{
