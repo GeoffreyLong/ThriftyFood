@@ -13,7 +13,7 @@ block nav
             li
               a(href=userEndpoint) #{curUserName}
             li  
-              a(href='/users/logout/' + curUserId) LOGOUT
+              a(href='/users/logout') LOGOUT
         - if(curUserType == 'seller')
             li
               a(href='/food/new') SELL

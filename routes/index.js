@@ -357,6 +357,14 @@ app.get('/seller/:id', function(req,res){
   });
 });
 
+app.get('/users/logout', function(req,res){
+  // TODO not sure if this is the best way to handle this
+  // Could lose information such as shopping carts?
+  req.session.destroy(function(err){
+    if (err) res.status(500).send(err);
+    res.redirect('/');
+  });
+});
 /*
 // Adapted from http://stackoverflow.com/questions/16482233/store-file-in-mongos-gridfs-with-expressjs-after-upload
 FileRepository.prototype.getFile = function(callback,id) {
