@@ -1,4 +1,13 @@
 var mongoose = require('mongoose');
+var bodyParser = require('body-parser'); 
+var expressSession = require('express-session');
+var cookieParser = require('cookie-parser');
+var express = require('express');
+var app = express();
+
+app.use(cookieParser());
+app.use(expressSession({secret:'seekraets'}));
+app.use(bodyParser());
 
 mongoose.connect('mongodb://localhost/ThriftyFood', function (error) {
   if (error) {
@@ -34,8 +43,8 @@ var UserSchema = new Schema({
 });
 var SellerSchema = new Schema({
     userName: String,
-    currentFoodItems: [mongoose.Schema.Types.ObjectId],
-    pastFoodItems: [mongoose.Schema.Types.ObjectId],  
+    currentFoodItems: [mongoose.Schema.Types.ObjectId], // necessary?
+    pastFoodItems: [mongoose.Schema.Types.ObjectId],    // necessary?
     reviews: [{
       rating: Number,
       comment: String,
@@ -55,15 +64,60 @@ var Users = mongoose.model('users', UserSchema);
 var Sellers = mongoose.model('sellers', SellerSchema);
 var Purchases = mongoose.model('purchases', PurchaseSchema);
 
-var express = require('express');
-var app = express();
 
 // Temporary code for seeding
 Foods.find().count(function(err, count){
+
   if (err){
     console.log(err)
   }
   else if (count == 0){
+    var userID1 = null;
+    var userID2 = null;
+    var userID3 = null;
+    var sellerID1 = null;
+    var sellerID2 = null;
+    var foodID1 = null;
+    var foodID2 = null;
+    var foodID3 = null;
+
+    new Users({ 
+      userName: "User_One",
+    }).save(function(err,saved){
+      if (err) console.log(err);
+      userID1 = saved._id;
+    });
+    new Users({ 
+      userName: "User_Two",
+    }).save(function(err,saved){
+      if (err) console.log(err);
+      userID2 = saved._id;
+    });
+    new Users({ 
+      userName: "Bobby_Tables",
+    }).save(function(err,saved){
+      if (err) console.log(err);
+      userID3 = saved._id;
+    });
+
+    new Sellers({
+      userName: "Seller_One",
+      currentFoodItems: [],
+      pastFoodItems: [],  
+      reviews: [{
+        rating: 1,
+        comment: "I don't like her cooking... I don't care if she's my mom, she gets one star",
+        reviewerId: userID3,
+      },{
+        rating: 2,
+        comment: "Good kid, but Maad City",
+        reviewerId: userID1,
+      },],
+    }).save(function(err,saved){
+      if (err) console.log(err);
+      sellerID1 = saved._id;
+    });
+    
     new Foods({
       portionsAvailable: 10,
       timeRange: {start: null, end: null},
@@ -72,10 +126,10 @@ Foods.find().count(function(err, count){
       description: "I maed dis and it sux",
       portionDefinition: "You get nothing and like it",
       address: "This is an address",
-      sellerId: mongoose.Types.ObjectId("56a4244bd496bd063c807d46"),
+      sellerId: sellerID1,
     }).save(function(err,saved){
       if (err) console.log(err);
-      // console.log(JSON.stringify(saved));
+      foodID1 = saved._id;
     });
     
     new Foods({
@@ -88,10 +142,10 @@ Foods.find().count(function(err, count){
       address: {
         
       },
-      sellerId: mongoose.Types.ObjectId("56a4244bd496bd063c807d46"),
+      sellerId: sellerID1,
     }).save(function(err,saved){
       if (err) console.log(err);
-      // console.log(JSON.stringify(saved));
+      foodID2 = saved._id;
     });
 
     new Foods({
@@ -102,67 +156,33 @@ Foods.find().count(function(err, count){
       description: "It's got bits of real panther in it",
       portionDefinition: "A dash",
       address: "Mount Olympus",
-      sellerId: mongoose.Types.ObjectId("56a4244bd496bd063c807d46"),
+      sellerId: sellerID1,
     }).save(function(err,saved){
       if (err) console.log(err);
-      // console.log(JSON.stringify(saved));
+      foodID3 = saved._id;
     });
 
-    new Users({ 
-      userName: "User_One",
-    }).save(function(err,saved){
-      if (err) console.log(err);
-      // console.log(JSON.stringify(saved));
-    });
-    new Users({ 
-      userName: "User_Two",
-    }).save(function(err,saved){
-      if (err) console.log(err);
-      // console.log(JSON.stringify(saved));
-    });
-    new Users({ 
-      userName: "Bobby_Tables",
-    }).save(function(err,saved){
-      if (err) console.log(err);
-      // console.log(JSON.stringify(saved));
-    });
-
-    new Sellers({
-      userName: "Seller_One",
-      currentFoodItems: [mongoose.Types.ObjectId("56a3ff94190f46312a882f6f")],
-      pastFoodItems: [mongoose.Types.ObjectId("56a3ffbb2619fd4a2a5a8e5a")],  
-      reviews: [{
-        rating: 1,
-        comment: "I don't like her cooking... I don't care if she's my mom, she gets one star",
-        reviewerId: mongoose.Types.ObjectId("56a4244bd496bd063c807d45"),
-      },{
-        rating: 2,
-        comment: "Good kid, but Maad City",
-        reviewerId: mongoose.Types.ObjectId("56a4244bd496bd063c807d46"),
-      },],
-    }).save(function(err,saved){
-      if (err) console.log(err);
-      // console.log(JSON.stringify(saved));
-    });
     
     new Purchases({
-      foodId:  mongoose.Types.ObjectId("56a4244bd496bd063c807d46"),
-      userId: mongoose.Types.ObjectId("56a4244bd496bd063c807d46"),
-      sellerId: mongoose.Types.ObjectId("56a4244bd496bd063c807d46"),
+      foodId: foodID1,
+      userId: userID1,
+      sellerId: sellerID1,
       quantity: 5,
     }).save(function(err,saved){
       if (err) console.log(err);
       // console.log(JSON.stringify(saved));
     });
     new Purchases({
-      foodId: mongoose.Types.ObjectId("56a4244bd496bd063c807d46"),
-      userId: mongoose.Types.ObjectId("56a4244bd496bd063c807d46"),
-      sellerId: mongoose.Types.ObjectId("56a4244bd496bd063c807d46"),
+      foodId: foodID1,
+      userId: userID3,
+      sellerId: sellerID1,
       quantity: 1,
     }).save(function(err,saved){
       if (err) console.log(err);
       // console.log(JSON.stringify(saved));
     });
+
+
   }
 });
 
@@ -170,11 +190,6 @@ app.get('/landing', function(req, res){
   res.render('landing', {title: 'Food App', script: 'javascripts/landing.js'})
 })
 
-// Saving the id of the user will make it easier to do things
-// Probably not the best practice, but performancewise it should be fine
-// The id doesn't change often and we can just save it when the user logs on
-// For now we will use this dummy value
-curId = null; 
 
 /* GET home page. */
 app.get('/', function(req, res) {
@@ -195,7 +210,8 @@ app.get('/', function(req, res) {
         else{
           console.log(seller);
           res.render('index', { title: 'Food App', script: '/javascripts/index.js', 
-                                foods: foods, seller:seller});
+                                foods: foods, seller:seller, curUserName: req.session.userName,
+                                curUserType: req.session.type});
         }
       });
     }
@@ -231,7 +247,7 @@ app.post('/food/submit', function(req, res){
       street: req.body.street,
       number: req.body.number,
     },
-    sellerId: curId,
+    sellerId: req.session.id,
   }).save(function(err,saved){
     if (err){
       console.log(err);
@@ -257,7 +273,9 @@ app.post('/users/submit', function(req, res){
         console.log(err);
         res.status(500).send(err);
       }
-      curId = saved._id;
+      req.session.userId = saved._id;
+      req.session.userName = saved.userName;
+      req.session.type = 'seller';
       res.redirect("/");
     });
   }
@@ -269,7 +287,9 @@ app.post('/users/submit', function(req, res){
         console.log(err);
         res.status(500).send(err);
       }
-      curId = saved._id; 
+      req.session.userId = saved._id;
+      req.session.userName = saved.userName;
+      req.session.type = 'user';
       res.redirect("/");
     });
   }
