@@ -3,6 +3,9 @@ var bodyParser = require('body-parser');
 var expressSession = require('express-session');
 var cookieParser = require('cookie-parser');
 var express = require('express');
+var mongo = require('mongodb');
+var fs = require('fs');
+var Grid = require('gridfs-stream');
 var app = express();
 
 app.use(cookieParser());
@@ -203,6 +206,7 @@ Foods.find().count(function(err, count){
   }
 });
 
+
 app.get('/landing', function(req, res){
   res.render('landing', {title: 'Food App', script: 'javascripts/landing.js'})
 })
@@ -253,6 +257,27 @@ app.post('/food/submit', function(req, res){
   var endDate = new Date(dateTokens[0], dateTokens[1], dateTokens[2],
     startTokens[0], startTokens[1], 0, 0);
     
+  // Adapted from http://excellencenodejsblog.com/gridfs-using-mongoose-nodejs/
+  // This will hopefully take the file from the input field imgFile
+  // Need to check when the submit fn works
+  var conn = mongoose.connection
+  Grid.mongo = mongoose.mongo;
+  conn.once('open', function () {
+    console.log('open');
+    var gfs = Grid(conn.db);
+   
+    var writestream = gfs.createWriteStream({
+      // TODO should be dynamic based on imgFile
+      filename: 'mongo_file.jpg'
+    });
+    // this is the file that is written
+    fs.createReadStream('./public/img/food.jpg').pipe(writestream);
+ 
+    writestream.on('close', function (file) {
+        console.log(file.filename + 'Written To DB');
+    });
+  });
+
   new Foods({
     portionsAvailable: req.body.portions,
     timeRange: {start: startDate, end: endDate},
@@ -332,5 +357,20 @@ app.get('/seller/:id', function(req,res){
   });
 });
 
+/*
+// Adapted from http://stackoverflow.com/questions/16482233/store-file-in-mongos-gridfs-with-expressjs-after-upload
+FileRepository.prototype.getFile = function(callback,id) {
+   var gs = new GridStore(this.db, new ObjectID(id), 'r');
+   gs.open(function(err,gs){
+      gs.read(callback);
+   });
+ };
+app.get('/img/:imgId', function(req, res) {
+  fileRepository.getFile(function(error,data) {
+     res.writeHead('200', {'Content-Type': 'image/png'});
+     res.end(data,'binary');
+  }, req.params.imgId);
+});
+*/
 module.exports = app;
 
