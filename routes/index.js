@@ -226,10 +226,7 @@ app.get('/', function(req, res) {
         sellerIds.push(foods[f].sellerId);
       }
 
-      // TODO test / fix this... might not be right
-      // I'm not sure if it will iterate over all the instances or not
-      // Even if it does the render would be off then...
-      // Could probably do find({"_id": {$in: foods.sellerId}}).exec(function...
+      // TODO test 
       Sellers.find({"_id": {$in: sellerIds}}, function(err2,seller){
         if (err2){
           console.log(err2);
@@ -238,7 +235,7 @@ app.get('/', function(req, res) {
         else{
           res.render('index', { title: 'Food App', script: '/javascripts/index.js', 
                                 foods:foods, seller:seller, curUserName: req.session.userName,
-                                curUserType: req.session.type});
+                                curUserType: req.session.type, curUserId: req.session.userId});
         }
       });
     }
@@ -314,20 +311,6 @@ app.get('/users/new', function(req,res){
 app.post('/users/submit', function(req, res){
   console.log(req.body)
   if (req.body.usersubmit){
-    new Sellers({
-      userName: req.body.username,
-    }).save(function(err,saved){
-      if (err){
-        console.log(err);
-        res.status(500).send(err);
-      }
-      req.session.userId = saved._id;
-      req.session.userName = saved.userName;
-      req.session.type = 'seller';
-      res.redirect("/");
-    });
-  }
-  else{
     new Users({
       userName: req.body.username,
     }).save(function(err,saved){
@@ -338,6 +321,20 @@ app.post('/users/submit', function(req, res){
       req.session.userId = saved._id;
       req.session.userName = saved.userName;
       req.session.type = 'user';
+      res.redirect("/");
+    });
+  }
+  else{
+    new Sellers({
+      userName: req.body.username,
+    }).save(function(err,saved){
+      if (err){
+        console.log(err);
+        res.status(500).send(err);
+      }
+      req.session.userId = saved._id;
+      req.session.userName = saved.userName;
+      req.session.type = 'seller';
       res.redirect("/");
     });
   }
@@ -360,6 +357,14 @@ app.get('/seller/:id', function(req,res){
   });
 });
 
+app.get('/users/logout', function(req,res){
+  // TODO not sure if this is the best way to handle this
+  // Could lose information such as shopping carts?
+  req.session.destroy(function(err){
+    if (err) res.status(500).send(err);
+    res.redirect('/');
+  });
+});
 /*
 // Adapted from http://stackoverflow.com/questions/16482233/store-file-in-mongos-gridfs-with-expressjs-after-upload
 FileRepository.prototype.getFile = function(callback,id) {
