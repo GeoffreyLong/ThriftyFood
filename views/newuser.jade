@@ -8,7 +8,7 @@ block content
         div(class='card')
           div(class='card-content')
             div(class='container')
-              form(name='newFood', action='/users/submit', method='post')
+              form(name='usersubmit', action='/users/submit', method='post')
                 div(class='row')
                   div(class=['input-field'])
                     input(type="text", name="username", class="userfield", placeholder='Username')
@@ -20,14 +20,14 @@ block content
                     input(type="password", class="passCheck", name="password2", placeholder='Re-enter password')
                 div(class='row')
                   button(class=['btn-large', 'waves-effect',
-                    'waves-light', 'col', 's12'], type='submit', name='action') Create buyer account
+                    'waves-light', 'col', 's12'], type='submit', name='usersubmit') Create buyer account
                     i(class=['material-icons', 'right']) send
 
       div(class=['col', 's6'])
         div(class='card')
           div(class='card-content')
             div(class='container')
-              form(name='newFood', action='/users/submit', method='post')
+              form(name='sellersubmit', action='/users/submit', method='post')
                 div(class='row')
                   div(class=['input-field'])
                     input(type="text", name="username", class="userfield", placeholder='Username')
@@ -39,48 +39,6 @@ block content
                     input(type="password", class="passCheck", name="password2", placeholder='Re-enter password')
                 div(class='row')
                   button(class=['btn-large', 'waves-effect',
-                    'waves-light', 'col', 's12'], type='submit', name='action') Create seller account
+                    'waves-light', 'col', 's12'], type='submit', name='sellersubmit') Create seller account
                     i(class=['material-icons', 'right']) send
 
-
-
-  //p User
-  //div
-  //  form(name="newUser", action="/users/submit", method="post")
-  //    table
-  //      tr
-  //        td Username:
-  //        td
-  //          input(type="text", name="username", class="userfield")
-  //      tr
-  //        td Password:
-  //        td
-  //          input(type="password", class="pass", id="userPass1", name="password")
-  //      tr
-  //        td Repeat password:
-  //        td
-  //          input(type="password", class="passCheck", id="userPass2", name="rpassword")
-  //      tr
-  //        td
-  //          input(type="submit", name="usersubmit")
-  //
-  //
-  //p Seller
-  //div
-  //  form(name="newSeller", action="/users/submit", method="post")
-  //    table
-  //      tr
-  //        td Username:
-  //        td
-  //          input(type="text", name="username", class="userfield")
-  //      tr
-  //        td Password:
-  //        td
-  //          input(type="password", class="pass", id="sellerPass1", name="password")
-  //      tr
-  //        td Repeat password:
-  //        td
-  //          input(type="password", class="passCheck", id="sellerPass2", name="rpassword")
-  //      tr
-  //        td
-  //          input(type="submit", name="sellersubmit")
