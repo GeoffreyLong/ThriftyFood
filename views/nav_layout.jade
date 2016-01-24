@@ -8,7 +8,9 @@ block nav
       ul(class=['right', 'hide-on-med-and-down'])
         - if(!curUserName)
             li
-              a(href='/users/new') LOGIN
+              a(href='/users/new') CREATE ACCOUNT
+            li
+              a(href='/users/login') LOGIN
         - else
             - var userEndpoint = '/users/' + curUserId
             li
