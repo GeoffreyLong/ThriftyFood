@@ -190,15 +190,9 @@ app.get('/landing', function(req, res){
   res.render('landing', {title: 'Food App', script: 'javascripts/landing.js'})
 })
 
-// Saving the id of the user will make it easier to do things
-// Probably not the best practice, but performancewise it should be fine
-// The id doesn't change often and we can just save it when the user logs on
-// For now we will use this dummy value
-curId = null; 
 
 /* GET home page. */
 app.get('/', function(req, res) {
-  console.log(req.session.id);
   // TODO filter by pickup date... don't want to display old items
   Foods.find(function(err,foods){
     if (err){
@@ -216,7 +210,8 @@ app.get('/', function(req, res) {
         else{
           console.log(seller);
           res.render('index', { title: 'Food App', script: '/javascripts/index.js', 
-                                foods: foods, seller:seller});
+                                foods: foods, seller:seller, curUserName: req.session.userName,
+                                curUserType: req.session.type});
         }
       });
     }
@@ -252,7 +247,7 @@ app.post('/food/submit', function(req, res){
       street: req.body.street,
       number: req.body.number,
     },
-    sellerId: curId,
+    sellerId: req.session.id,
   }).save(function(err,saved){
     if (err){
       console.log(err);
@@ -278,8 +273,9 @@ app.post('/users/submit', function(req, res){
         console.log(err);
         res.status(500).send(err);
       }
-      req.session.id = saved._id;
-      curId = saved._id;
+      req.session.userId = saved._id;
+      req.session.userName = saved.userName;
+      req.session.type = 'seller';
       res.redirect("/");
     });
   }
@@ -291,8 +287,9 @@ app.post('/users/submit', function(req, res){
         console.log(err);
         res.status(500).send(err);
       }
-      req.session.id = saved._id;
-      curId = saved._id;
+      req.session.userId = saved._id;
+      req.session.userName = saved.userName;
+      req.session.type = 'user';
       res.redirect("/");
     });
   }
