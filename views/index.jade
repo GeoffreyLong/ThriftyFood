@@ -25,8 +25,8 @@ mixin food_display(food, col_span)
           i(class=['material-icons', 'right', 'small']) close
           h5 #{food.name}
           h6 #{food.description}
-          h6 #{food.portionsAvailable + " " + food.portionDefinition}
-          h6 #{"$" + food.price}
+          h6 #[b #{food.portionsAvailable}] servings ready at
+            |$#[b #{parseFloat(Math.round(food.price * 100) / 100).toFixed(2)}.]
 
         span(class='content-bottom')
           div(class=['row'])
