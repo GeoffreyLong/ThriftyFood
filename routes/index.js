@@ -174,7 +174,7 @@ app.get('/landing', function(req, res){
 // Probably not the best practice, but performancewise it should be fine
 // The id doesn't change often and we can just save it when the user logs on
 // For now we will use this dummy value
-curId = mongoose.Types.ObjectId("56a4244bd496bd063c807d46"); 
+curId = null; 
 
 /* GET home page. */
 app.get('/', function(req, res) {
@@ -257,6 +257,7 @@ app.post('/users/submit', function(req, res){
         console.log(err);
         res.status(500).send(err);
       }
+      curId = saved._id;
       res.redirect("/");
     });
   }
@@ -268,9 +269,9 @@ app.post('/users/submit', function(req, res){
         console.log(err);
         res.status(500).send(err);
       }
+      curId = saved._id; 
       res.redirect("/");
     });
-
   }
 });
 
