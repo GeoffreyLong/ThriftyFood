@@ -5,18 +5,18 @@ block content
   +login_form()
 
 mixin login_form()
-  div(class='row')
+  div(class=['row', 'vertical-center'])
     div(class=['container'])
       div(class='card')
         div(class='card-content')
           form(name='login', action='/users/login', method='post')
-          div(class='row')
-            div(class=['input-field'])
-              input(type="text", name="username", class="userfield", placeholder='Username')
-          div(class='row')
-            div(class='input-field')
-              input(type="password", class="pass", name="password", placeholder='Password')
-          div(class='row')
-            button(class=['btn-large', 'waves-effect',
-              'waves-light', 'col', 's12'], type='submit', name='action') Login
-              i(class=['material-icons', 'right']) send
+            div(class='row')
+              div(class=['input-field'])
+                input(type="text", name="username", class="userfield", placeholder='Username')
+            div(class='row')
+              div(class='input-field')
+                input(type="password", class="pass", name="password", placeholder='Password')
+            div(class='row')
+              button(class=['btn-large', 'waves-effect',
+                'waves-light', 'col', 's12'], type='submit', name='action') Login
+                i(class=['material-icons', 'right']) send
