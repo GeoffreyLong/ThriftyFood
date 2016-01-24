@@ -3,16 +3,25 @@ extends nav_layout
 block content
   div(class=['row'])
     each food in foods
-      +food_display2(food, 's6')
+      +food_display(food, 's6')
+//  - for(var i = 0; i < foods.length; i++)
+    //
+    //  if (i+1) == foods.length
+    //        +food_display(foods[i], 's12')
+    //      else
+    //        +food_display(foods[i], 's6')
+    //        +food_display(foods[i+1], 's6')
+    //      - i++
 
-mixin food_display2(food, col_span)
+
+mixin food_display(food, col_span)
   div(class=['col', col_span])
-    div(class=['card', 'food-card'])
+    div(class=['card', 'food-card', 'blue-grey', 'lighten-5'])
 
       div(class=['card-image'])
-        img(class='activator', src='img/food.jpg')
+        img(  src='img/food.jpg')
         span(class=['card-title'])
-          a(class=['waves-light', 'btn', 'blue-grey', 'darken-2']) #{food.name}
+          a(class=['waves-light', 'btn', 'blue-grey', 'darken-2', 'activator']) #{food.name}
 
       div(class=['card-content'])
         span(class=['card-title', 'activator'])
@@ -20,8 +29,20 @@ mixin food_display2(food, col_span)
           h5 #{food.description}
           h6 #{food.portionsAvailable + " " + food.portionDefinition}
 
-      div(class=['card-reveal'])
-        span(class=['card-title', 'grey-text', 'text-darken-4'])
+      div(class=['card-reveal', 'blue-grey', 'lighten-5'])
+        div(class=['card-title', 'grey-text', 'text-darken-4'])
           i(class=['material-icons', 'right', 'small']) close
           h5 #{food.name}
+          h6 #{food.description}
+        span(class='content-bottom')
+          div(class=['row'])
+            div(class=['payment-errors', 'col'])
+              input(name='number', placeholder='Credit Card Number')
+              input(name='cvc', placeholder='CVC')
+              input(name='exp-date', placeholder='Expiration Date')
+              input(name='exp-month', placeholder='Expiration Month')
+              button(class=['btn-large', 'waves-effect',
+                'waves-light', 'col', 's12'], type='submit', name='action') Purchase your food.
+                i(class=['material-icons', 'right']) send
+          form(action='', method='POST', id='payment-form')
 

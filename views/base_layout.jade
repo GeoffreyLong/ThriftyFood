@@ -5,10 +5,12 @@ html(lang = 'en')
     link(rel='stylesheet', href='/css/style.css')
     link(rel='stylesheet', href='/css/materialize.css')
     link(href="https://fonts.googleapis.com/icon?family=Material+Icons", rel="stylesheet")
+    link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css")
     script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js")
     script(src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js")
     script(type='text/javascript', src=script)
     script(type='text/javascript', src='js/materialize.js')
+    script(type='text/javascript', src='https://js.stripe.com/v2/')
 
 body
   block nav
@@ -16,5 +18,11 @@ body
   div(class=['fixed-action-btn', 'food-action-btn'])
     a(class=['btn-floating', 'btn-large', 'blue-grey'])
       i(class='material-icons') mode_edit
-
+    ul
+      li(class=['btn-floating blue'])
+        a(href='https://github.com/GeoffreyLong/ThriftyFood')
+          i(class='fa fa-github')
+      li(class=['btn-floating red'])
+        a(href='mailto:charlielbloomfield@gmail.com?Subject=Food%20App')
+          i(class='material-icons') email
 

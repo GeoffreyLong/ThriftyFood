@@ -8,6 +8,13 @@
   overflow: hidden;
 }
 
+.content-bottom {
+  position:absolute;
+  bottom:0px;
+  right:5%;
+  left:5%;
+}
+
 .food-card-reveal{
   display: none;
   transform: translateY(0px);
