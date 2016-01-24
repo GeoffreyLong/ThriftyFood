@@ -28,6 +28,7 @@ var FoodSchema = new Schema({
     images: [String],
     description: String,
     portionDefinition: String,
+    price: Number,
     address: {
       country: String,
       state: String,
@@ -86,16 +87,19 @@ Foods.find().count(function(err, count){
     }).save(function(err,saved){
       if (err) console.log(err);
       userID1 = saved._id;
+      
       new Users({ 
         userName: "User_Two",
       }).save(function(err,saved){
         if (err) console.log(err);
         userID2 = saved._id;
+        
         new Users({ 
           userName: "Bobby_Tables",
         }).save(function(err,saved){
           if (err) console.log(err);
           userID3 = saved._id;
+
           new Sellers({
             userName: "Seller_One",
             currentFoodItems: [],
@@ -112,6 +116,7 @@ Foods.find().count(function(err, count){
           }).save(function(err,saved){
             if (err) console.log(err);
             sellerID1 = saved._id;
+            
             new Foods({
               portionsAvailable: 10,
               timeRange: {start: null, end: null},
@@ -119,11 +124,19 @@ Foods.find().count(function(err, count){
               images: [null],
               description: "I maed dis and it sux",
               portionDefinition: "You get nothing and like it",
-              address: "This is an address",
+              price: 7.80,
+              address: {
+                country: Canada,
+                state: QC,
+                city: Montreal,
+                street: Durocher,
+                number: 3625, // since you could probably have like 114A
+              },
               sellerId: sellerID1,
             }).save(function(err,saved){
               if (err) console.log(err);
               foodID1 = saved._id;
+              
               new Foods({
                 portionsAvailable: 24,
                 timeRange: {start: null, end: null},
@@ -131,8 +144,13 @@ Foods.find().count(function(err, count){
                 images: [null],
                 description: "I heard this is good",
                 portionDefinition: "Pooptons of good food",
+                price: 5.00,
                 address: {
-                  
+                  country: Canada,
+                  state: QC,
+                  city: Montreal,
+                  street: Durocher,
+                  number: 3515, // since you could probably have like 114A
                 },
                 sellerId: sellerID1,
               }).save(function(err,saved){
@@ -145,7 +163,14 @@ Foods.find().count(function(err, count){
                   images: [null],
                   description: "It's got bits of real panther in it",
                   portionDefinition: "A dash",
-                  address: "Mount Olympus",
+                  price: 10000.00,
+                  address: {
+                    country: Canada,
+                    state: QC,
+                    city: Montreal,
+                    street: Aylmer,
+                    number: 2500, // since you could probably have like 114A
+                  },
                   sellerId: sellerID1,
                 }).save(function(err,saved){
                   if (err) console.log(err);
