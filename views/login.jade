@@ -1,4 +1,7 @@
+extends nav_layout
 
+div content
+  login_form()
 
 mixin login_form()
   div(class='row')
@@ -12,9 +15,6 @@ mixin login_form()
           div(class='input-field')
             input(type="password", class="pass", name="password", placeholder='Password')
         div(class='row')
-          div(class='input-field')
-            input(type="password", class="pass", name="password2", placeholder='Re-enter password')
-        div(class='row')
           button(class=['btn-large', 'waves-effect',
-            'waves-light', 'col', 's12'], type='submit', name='action') Create buyer account
+            'waves-light', 'col', 's12'], type='submit', name='action') Login
             i(class=['material-icons', 'right']) send
