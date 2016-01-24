@@ -86,103 +86,95 @@ Foods.find().count(function(err, count){
     }).save(function(err,saved){
       if (err) console.log(err);
       userID1 = saved._id;
+      new Users({ 
+        userName: "User_Two",
+      }).save(function(err,saved){
+        if (err) console.log(err);
+        userID2 = saved._id;
+        new Users({ 
+          userName: "Bobby_Tables",
+        }).save(function(err,saved){
+          if (err) console.log(err);
+          userID3 = saved._id;
+          new Sellers({
+            userName: "Seller_One",
+            currentFoodItems: [],
+            pastFoodItems: [],  
+            reviews: [{
+              rating: 1,
+              comment: "I don't like her cooking... I don't care if she's my mom, she gets one star",
+              reviewerId: userID3,
+            },{
+              rating: 2,
+              comment: "Good kid, but Maad City",
+              reviewerId: userID1,
+            },],
+          }).save(function(err,saved){
+            if (err) console.log(err);
+            sellerID1 = saved._id;
+            new Foods({
+              portionsAvailable: 10,
+              timeRange: {start: null, end: null},
+              name: "Bad Food",
+              images: [null],
+              description: "I maed dis and it sux",
+              portionDefinition: "You get nothing and like it",
+              address: "This is an address",
+              sellerId: sellerID1,
+            }).save(function(err,saved){
+              if (err) console.log(err);
+              foodID1 = saved._id;
+              new Foods({
+                portionsAvailable: 24,
+                timeRange: {start: null, end: null},
+                name: "Good Food",
+                images: [null],
+                description: "I heard this is good",
+                portionDefinition: "Pooptons of good food",
+                address: {
+                  
+                },
+                sellerId: sellerID1,
+              }).save(function(err,saved){
+                if (err) console.log(err);
+                foodID2 = saved._id;
+                new Foods({
+                  portionsAvailable: 1,
+                  timeRange: {start: null, end: null},
+                  name: "Ambrosia",
+                  images: [null],
+                  description: "It's got bits of real panther in it",
+                  portionDefinition: "A dash",
+                  address: "Mount Olympus",
+                  sellerId: sellerID1,
+                }).save(function(err,saved){
+                  if (err) console.log(err);
+                  foodID3 = saved._id;
+                  new Purchases({
+                    foodId: foodID1,
+                    userId: userID1,
+                    sellerId: sellerID1,
+                    quantity: 5,
+                  }).save(function(err,saved){
+                    if (err) console.log(err);
+                    // console.log(JSON.stringify(saved));
+                    new Purchases({
+                      foodId: foodID1,
+                      userId: userID3,
+                      sellerId: sellerID1,
+                      quantity: 1,
+                    }).save(function(err,saved){
+                      if (err) console.log(err);
+                      // console.log(JSON.stringify(saved));
+                    });
+                  });
+                });
+              });
+            });
+          });
+        });
+      });
     });
-    new Users({ 
-      userName: "User_Two",
-    }).save(function(err,saved){
-      if (err) console.log(err);
-      userID2 = saved._id;
-    });
-    new Users({ 
-      userName: "Bobby_Tables",
-    }).save(function(err,saved){
-      if (err) console.log(err);
-      userID3 = saved._id;
-    });
-
-    new Sellers({
-      userName: "Seller_One",
-      currentFoodItems: [],
-      pastFoodItems: [],  
-      reviews: [{
-        rating: 1,
-        comment: "I don't like her cooking... I don't care if she's my mom, she gets one star",
-        reviewerId: userID3,
-      },{
-        rating: 2,
-        comment: "Good kid, but Maad City",
-        reviewerId: userID1,
-      },],
-    }).save(function(err,saved){
-      if (err) console.log(err);
-      sellerID1 = saved._id;
-    });
-    
-    new Foods({
-      portionsAvailable: 10,
-      timeRange: {start: null, end: null},
-      name: "Bad Food",
-      images: [null],
-      description: "I maed dis and it sux",
-      portionDefinition: "You get nothing and like it",
-      address: "This is an address",
-      sellerId: sellerID1,
-    }).save(function(err,saved){
-      if (err) console.log(err);
-      foodID1 = saved._id;
-    });
-    
-    new Foods({
-      portionsAvailable: 24,
-      timeRange: {start: null, end: null},
-      name: "Good Food",
-      images: [null],
-      description: "I heard this is good",
-      portionDefinition: "Pooptons of good food",
-      address: {
-        
-      },
-      sellerId: sellerID1,
-    }).save(function(err,saved){
-      if (err) console.log(err);
-      foodID2 = saved._id;
-    });
-
-    new Foods({
-      portionsAvailable: 1,
-      timeRange: {start: null, end: null},
-      name: "Ambrosia",
-      images: [null],
-      description: "It's got bits of real panther in it",
-      portionDefinition: "A dash",
-      address: "Mount Olympus",
-      sellerId: sellerID1,
-    }).save(function(err,saved){
-      if (err) console.log(err);
-      foodID3 = saved._id;
-    });
-
-    
-    new Purchases({
-      foodId: foodID1,
-      userId: userID1,
-      sellerId: sellerID1,
-      quantity: 5,
-    }).save(function(err,saved){
-      if (err) console.log(err);
-      // console.log(JSON.stringify(saved));
-    });
-    new Purchases({
-      foodId: foodID1,
-      userId: userID3,
-      sellerId: sellerID1,
-      quantity: 1,
-    }).save(function(err,saved){
-      if (err) console.log(err);
-      // console.log(JSON.stringify(saved));
-    });
-
-
   }
 });
 
