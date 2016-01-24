@@ -6,104 +6,53 @@ block content
       div(class='card-content')
         form(name='newFood', action='/food/submit', method='post')
 
-        div(class='row')
-          div(class=['input-field'])
-            input(type='text', placeholder='Food name', id='name')
-        div(class=['row'])
-          div(class=['input-field'])
-            input(type='text', placeholder='Food description', id='description')
+          div(class='row')
+            div(class=['input-field'])
+              input(type='text', placeholder='Food name', name='name')
+          div(class=['row'])
+            div(class=['input-field'])
+              input(type='text', placeholder='Food description', name='description')
 
-        div(class=['row'])
-          div(class=['file-field', 'input-field'])
-            div(class=['btn'])
-              span File
-              input(type='file')
-            div(class='file-path-wrapper')
-              input(class=['file-path', 'validate'], type='text', placeholder='Upload image file', id='imgFile')
+          div(class=['row'])
+            div(class=['file-field', 'input-field'])
+              div(class=['btn'])
+                span File
+                input(type='file')
+              div(class='file-path-wrapper')
+                input(class=['file-path', 'validate'], type='text', placeholder='Upload image file', name='imgFile')
 
-        div(class=['row'])
-          div(class=['input-field', 'col', 's6'])
-            input(type='text', placeholder='Portions available', id='portions')
-          div(class=['input-field', 'col', 's6'])
-            input(type='text', placeholder='What you call a portion', id='portionDef')
+          div(class=['row'])
+            div(class=['input-field', 'col', 's6'])
+              input(type='text', placeholder='Portions available', name='portions')
+            div(class=['input-field', 'col', 's6'])
+              input(type='text', placeholder='What you call a portion', name='portionDef')
 
-        div(class='row')
-          div(class=['input-field', 'col', 's4'])
-            input(type='date', placeholder='Date', id='date')
-          div(class=['input-field', 'col', 's4'])
-            input(type='time', placeholder='Start time', id='startTime')
-          div(class=['input-field', 'col', 's4'])
-            input(type='time', placeholder='End time', id='endTime')
+          div(class='row')
+            div(class=['input-field', 'col', 's4'])
+              input(type='date', placeholder='Date', name='date')
+            div(class=['input-field', 'col', 's4'])
+              input(type='time', placeholder='Start time', name='startTime')
+            div(class=['input-field', 'col', 's4'])
+              input(type='time', placeholder='End time', name='endTime')
 
-        div(class='row')
-          div(class=['input-field', 'col', 's4'])
-            input(type='text', placeholder='Country', id='country')
-          div(class=['input-field', 'col', 's4'])
-            input(type='text', placeholder='State or Province', id='state')
-          div(class=['input-field', 'col', 's4'])
-            input(type='text', placeholder='City', id='city')
+          div(class='row')
+            div(class=['input-field', 'col', 's4'])
+              input(type='text', placeholder='Country', name='country')
+            div(class=['input-field', 'col', 's4'])
+              input(type='text', placeholder='State or Province', name='state')
+            div(class=['input-field', 'col', 's4'])
+              input(type='text', placeholder='City', name='city')
 
-        div(class='row')
-          div(class=['input-field', 'col', 's6'])
-            input(type='text', placeholder='Street', id='street')
-          div(class=['input-field', 'col', 's6'])
-            input(type='text', placeholder='Number', id='number')
+          div(class='row')
+            div(class=['input-field', 'col', 's6'])
+              input(type='text', placeholder='Street', name='street')
+            div(class=['input-field', 'col', 's6'])
+              input(type='text', placeholder='Number', name='number')
 
-        div(class='row')
-          //div(class=['input-field', 'col', 's6'])
-          //  input(type='submit', value='submit')
-          button(class=['btn-large', 'waves-effect',
-            'waves-light', 'col', 's12'], type='submit', name='action') Submit Your Food
-            i(class=['material-icons', 'right'])
-
-//block content
-//  div
-//    form(name="newFood", action="/food/submit", method="post")
-//      table
-//        tr
-//          td Name:
-//          td
-//            input(type="text", name="name")
-//        tr
-//          td Description:
-//          td
-//            input(type="text", name="description")
-//        tr
-//          td Portions Available:
-//          td
-//            input(type="text", name="portions")
-//        tr
-//          td Portion Definition:
-//          td
-//            input(type="text", name="portionDef")
-//        tr
-//          td Pickup Date:
-//          td
-//            input(type="date", name="date")
-//          td Start Time:
-//          td
-//            input(type="time", name="startTime")
-//          td End Time:
-//          td
-//            input(type="time", name="endTime")
-//        tr
-//          td Country:
-//          td
-//            input(type="text", name="country")
-//          td State/Province:
-//          td
-//            input(type="text", name="state")
-//          td City:
-//          td
-//            input(type="text", name="city")
-//          td Street:
-//          td
-//            input(type="text", name="street")
-//          td House Number:
-//          td
-//            input(type="text", name="number")
-//        tr
-//          td
-//            input(type="submit", value="submit")
-
+          div(class='row')
+            //div(class=['input-field', 'col', 's6'])
+            //  input(type='submit', value='submit')
+            button(class=['btn-large', 'waves-effect',
+              'waves-light', 'col', 's12'], type='submit', name='action') Submit Your Food
+              i(class=['material-icons', 'right'])
 

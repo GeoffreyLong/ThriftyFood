@@ -303,7 +303,7 @@ app.post('/food/submit', function(req, res){
       street: req.body.street,
       number: req.body.number,
     },
-    sellerId: req.session.id,
+    sellerId: req.session.userId,
   }).save(function(err,saved){
     if (err){
       console.log(err);
