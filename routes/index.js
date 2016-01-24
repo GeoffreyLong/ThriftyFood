@@ -1,3 +1,6 @@
+// TODO implement passport or some better means of passports
+// Salt and hash passwords
+
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser'); 
 var expressSession = require('express-session');
@@ -44,9 +47,11 @@ var FoodSchema = new Schema({
 });
 var UserSchema = new Schema({
     userName: String,
+    password: String,
 });
 var SellerSchema = new Schema({
     userName: String,
+    password: String,
     currentFoodItems: [mongoose.Schema.Types.ObjectId], // necessary?
     pastFoodItems: [mongoose.Schema.Types.ObjectId],    // necessary?
     reviews: [{
@@ -87,24 +92,28 @@ Foods.find().count(function(err, count){
 
     new Users({ 
       userName: "User_One",
+      password: "User_One",
     }).save(function(err,saved){
       if (err) console.log(err);
       userID1 = saved._id;
       
       new Users({ 
         userName: "User_Two",
+        password: "TwoUsers",
       }).save(function(err,saved){
         if (err) console.log(err);
         userID2 = saved._id;
         
         new Users({ 
           userName: "Bobby_Tables",
+          password: "hello",
         }).save(function(err,saved){
           if (err) console.log(err);
           userID3 = saved._id;
 
           new Sellers({
             userName: "Seller_One",
+            password: "Seller_One",
             currentFoodItems: [],
             pastFoodItems: [],  
             reviews: [{
@@ -311,9 +320,12 @@ app.get('/users/new', function(req,res){
 
 // TODO handle mismatching passwords in javascript file
 app.post('/users/submit', function(req, res){
-  if (req.body.usersubmit){
+  console.log(req.body);
+  console.log(JSON.stringify(req.body));
+  if ('usersubmit' in req.body){
     new Users({
       userName: req.body.username,
+      password: req.body.password,
     }).save(function(err,saved){
       if (err){
         console.log(err);
@@ -328,6 +340,7 @@ app.post('/users/submit', function(req, res){
   else{
     new Sellers({
       userName: req.body.username,
+      password: req.body.password,
     }).save(function(err,saved){
       if (err){
         console.log(err);
@@ -361,28 +374,44 @@ app.get('/users/login', function(req,res){
   res.render('login');
 });
 
+
+// TODO this needs work... better error handling, etc
+// Consider using passport
 app.post('/users/login', function(req,res){
-  console.log(req.body);
   Users.find({'userName':req.body.username}, function(err, user){
     if (err) res.status(500).send(err);
     if (user.length != 0){
-      console.log(user);
-      req.session.userId = user[0]._id;
-      req.session.userName = user[0].userName;
-      req.session.type = 'user';
-      res.redirect('/');
+      var userId = user[0]._id;
+      var userName = user[0].userName;
+      if (req.body.password != user[0].password){
+        res.redirect('/users/login');
+      }
+      else{
+        req.session.userId = userId;
+        req.session.userName = userName;
+        req.session.type = 'user';
+        res.redirect('/');
+      }
     }
     else{
       Sellers.find({'userName':req.body.username}, function(err2, seller){
         if (err2) res.status(500).send(err2);
         if (seller.length != 0){
-          req.session.userId = seller[0]._id;
-          req.session.userName = seller[0].userName;
-          req.session.type = 'seller';
-          res.redirect('/');
+          var userId = seller[0]._id;
+          var userName = seller[0].userName;
+          if (req.body.password != seller[0].password){
+            res.redirect('/users/login');
+          }
+          else{
+            req.session.userId = userId;
+            req.session.userName = userName;
+            req.session.type = 'seller';
+            res.redirect('/');
+          }
         }
         else{
           //TODO should give an error message
+          res.redirect('/users/login');
           res.redirect('/');
         }
       });
