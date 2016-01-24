@@ -1,5 +1,5 @@
 $(document).ready(function(){
-  $('input[type="submit"]').prop('disabled', true);
+  $('button[type="submit"]').prop('disabled', true);
   $('body').on('keyup', '.userfield', function(){
     var check = $(this);
     if (check.val().length >= 5 || check.val().length == 0){
@@ -22,9 +22,9 @@ $(document).ready(function(){
     //TODO check if this value matches the corresponding .pass 
     // If not then the underlining should be in red, else blue
     var check = $(this);
-    var table = $(this).parent().parent().parent().parent();
+    var table = $(this).parent().parent().parent();
     var orig = table.find('.pass');
-    var submit = table.find('input[type="submit"]');
+    var submit = table.find('button[type="submit"]');
     var userfield = table.find('.userfield');
     if (orig.val() == check.val() && orig.val().length >= 5){
       orig.addClass('valid');

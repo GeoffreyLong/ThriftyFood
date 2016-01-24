@@ -4,45 +4,44 @@ extends nav_layout
 block content
   div(class='container')
     div(class=['row', 'vertical-center'])
-      div(class=['col', 's6'])
-        div(class='card')
-          div(class='card-content')
-            //div(class=['col', 's6'])
-              //div(class='container')
-            form(name='newFood', action='/users/submit', method='post')
-            div(class='row')
-              div(class=['input-field'])
-                input(type="text", name="username", class="userfield", placeholder='Username')
-            div(class='row')
-              div(class='input-field')
-                input(type="password", class="pass", name="password", placeholder='Password')
-            div(class='row')
-              div(class='input-field')
-                input(type="password", class="pass", name="password2", placeholder='Re-enter password')
-            div(class='row')
-              button(class=['btn-large', 'waves-effect',
-                'waves-light', 'col', 's12'], type='submit', name='action') Create buyer account
-                i(class=['material-icons', 'right']) send
 
       div(class=['col', 's6'])
         div(class='card')
           div(class='card-content')
-            //div(class=['col', 's6'])
-              //div(class='container')
-            form(name='newFood', action='/users/submit', method='post')
-              div(class='row')
-                div(class=['input-field'])
-                  input(type="text", name="username", class="userfield", placeholder='Username')
-              div(class='row')
-                div(class='input-field')
-                  input(type="password", class="pass", name="password", placeholder='Password')
-              div(class='row')
-                div(class='input-field')
-                  input(type="password", class="pass", name="password2", placeholder='Re-enter password')
-              div(class='row')
-                button(class=['btn-large', 'waves-effect',
-                  'waves-light', 'col', 's12'], type='submit', name='action') Create seller account
-                  i(class=['material-icons', 'right']) send
+            div(class='container')
+              form(name='newFood', action='/users/submit', method='post')
+                div(class='row')
+                  div(class=['input-field'])
+                    input(type="text", name="username", class="userfield", placeholder='Username')
+                div(class='row')
+                  div(class='input-field')
+                    input(type="password", class="pass", name="password", placeholder='Password')
+                div(class='row')
+                  div(class='input-field')
+                    input(type="password", class="passCheck", name="password2", placeholder='Re-enter password')
+                div(class='row')
+                  button(class=['btn-large', 'waves-effect',
+                    'waves-light', 'col', 's12'], type='submit', name='action') Create buyer account
+                    i(class=['material-icons', 'right']) send
+
+      div(class=['col', 's6'])
+        div(class='card')
+          div(class='card-content')
+            div(class='container')
+              form(name='newFood', action='/users/submit', method='post')
+                div(class='row')
+                  div(class=['input-field'])
+                    input(type="text", name="username", class="userfield", placeholder='Username')
+                div(class='row')
+                  div(class='input-field')
+                    input(type="password", class="pass", name="password", placeholder='Password')
+                div(class='row')
+                  div(class='input-field')
+                    input(type="password", class="pass", name="password2", placeholder='Re-enter password')
+                div(class='row')
+                  button(class=['btn-large', 'waves-effect',
+                    'waves-light', 'col', 's12'], type='submit', name='action') Create seller account
+                    i(class=['material-icons', 'right']) send
 
   //p User
   //div
