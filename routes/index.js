@@ -11,6 +11,7 @@ mongoose.connect('mongodb://localhost/ThriftyFood', function (error) {
 
 //TODO Add creation schema (i.e. when person first plays game, need maps to load)
 var Schema = mongoose.Schema;
+
 var FoodSchema = new Schema({
     portionsAvailable: Number,
     timeRange: {start: Date, end: Date},
@@ -18,21 +19,45 @@ var FoodSchema = new Schema({
     images: [String],
     description: String,
     portionDefinition: String,
-    address: String
+    address: String,
+    sellerId: mongoose.Schema.Types.ObjectId,
+});
+var UserSchema = new Schema({
+    userName: String,
+});
+var SellerSchema = new Schema({
+    userName: String,
+    currentFoodItems: [mongoose.Schema.Types.ObjectId],
+    pastFoodItems: [mongoose.Schema.Types.ObjectId],  
+    reviews: [{
+      rating: Number,
+      comment: String,
+      reviewerId: mongoose.Schema.Types.ObjectId,
+    }],
+});
+var PurchaseSchema = new Schema({
+    foodId: mongoose.Schema.Types.ObjectId,
+    userId: mongoose.Schema.Types.ObjectId,
+    sellerId: mongoose.Schema.Types.ObjectId,
+    quantity: Number,
 });
 
-var Food = mongoose.model('test', FoodSchema);
+
+var Foods = mongoose.model('foods', FoodSchema);
+var Users = mongoose.model('users', UserSchema);
+var Sellers = mongoose.model('sellers', SellerSchema);
+var Purchases = mongoose.model('purchases', PurchaseSchema);
 
 var express = require('express');
 var app = express();
 
-
-Food.find().count(function(err, count){
+// Temporary code for seeding
+Foods.find().count(function(err, count){
   if (err){
     console.log(err)
   }
   else if (count == 0){
-    new Food({
+    new Foods({
       portionsAvailable: 10,
       timeRange: {start: null, end: null},
       name: "Bad Food",
@@ -45,7 +70,7 @@ Food.find().count(function(err, count){
       // console.log(JSON.stringify(saved));
     });
     
-    new Food({
+    new Foods({
       portionsAvailable: 24,
       timeRange: {start: null, end: null},
       name: "Good Food",
@@ -68,7 +93,8 @@ app.get('/landing', function(req, res){
 
 /* GET home page. */
 app.get('/', function(req, res) {
-  Food.find(function(err,foods){
+  // TODO filter by pickup date... don't want to display old items
+  Foods.find(function(err,foods){
     if (err){
       console.log(err);
       res.status(500).send(err);
