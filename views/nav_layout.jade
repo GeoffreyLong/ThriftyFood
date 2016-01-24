@@ -9,8 +9,11 @@ block nav
             li
               a(href='/users/new') LOGIN
         - else
-            - var userEndpoint = '/users/' + curUserName
+            - var userEndpoint = '/users/' + curUserId
             li
-              a(href=userEndpoint) MY ACCOUNT
-        li
-          a(href='/food/new') SELL
+              a(href=userEndpoint) #{curUserName}
+            li  
+              a(href='/users/logout/' + curUserId) LOGOUT
+        - if(curUserType == 'seller')
+            li
+              a(href='/food/new') SELL

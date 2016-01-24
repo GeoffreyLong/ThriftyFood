@@ -226,10 +226,7 @@ app.get('/', function(req, res) {
         sellerIds.push(foods[f].sellerId);
       }
 
-      // TODO test / fix this... might not be right
-      // I'm not sure if it will iterate over all the instances or not
-      // Even if it does the render would be off then...
-      // Could probably do find({"_id": {$in: foods.sellerId}}).exec(function...
+      // TODO test 
       Sellers.find({"_id": {$in: sellerIds}}, function(err2,seller){
         if (err2){
           console.log(err2);
@@ -238,7 +235,7 @@ app.get('/', function(req, res) {
         else{
           res.render('index', { title: 'Food App', script: '/javascripts/index.js', 
                                 foods:foods, seller:seller, curUserName: req.session.userName,
-                                curUserType: req.session.type});
+                                curUserType: req.session.type, curUserId: req.session.userId});
         }
       });
     }
