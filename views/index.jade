@@ -1,17 +1,17 @@
 extends nav_layout
 
 block content
-  div(class='container')
+  div(class=['container', 'food-item-grid'])
     each f in foods
       +food_display(f)
 
 mixin food_display(food)
-  div(class=['col-xs-12', 'food-item-container', 'row'])
-    div(class=['col-xs-4', 'food-item-img'])
+  div(class=['food-item-container', 'row'])
+    div(class=['col-xs-4', 'food-item-img', 'nopadding'])
       - var img = 'img/food.jpg'
       img(src=img, class='img-responsive')
 
-    div(class=['col-xs-8', 'food-item-info'])
+    div(class=['col-xs-8', 'food-item-info', 'nopadding'])
       div(class=['food-item-title'])
         -var userEndpoint = '/users/' + food.sellerId
         h1
