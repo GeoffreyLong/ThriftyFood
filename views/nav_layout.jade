@@ -5,7 +5,12 @@ block nav
     div(class='nav-wrapper')
       a(href='/', class='brand-logo') FOOD
       ul(class=['right', 'hide-on-med-and-down'])
-        li
-          a(href='/users/new') LOGIN
+        - if(!curUserName)
+            li
+              a(href='/users/new') LOGIN
+        - else
+            - var userEndpoint = '/users/' + curUserName
+            li
+              a(href=userEndpoint) MY ACCOUNT
         li
           a(href='/food/new') SELL
