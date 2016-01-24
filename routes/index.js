@@ -208,10 +208,18 @@ app.get('/food/new', function(req, res){
 
 app.post('/food/submit', function(req, res){
   console.log(req.body);
-  /*
+
+  var dateTokens = req.body.date.split("-");
+  var startTokens = req.body.startTime.split(":");
+  var endTokens = req.body.endTime.split(":");
+  var startDate = new Date(dateTokens[0], dateTokens[1], dateTokens[2],
+    endTokens[0], endTokens[1], 0, 0);
+  var endDate = new Date(dateTokens[0], dateTokens[1], dateTokens[2],
+    startTokens[0], startTokens[1], 0, 0);
+    
   new Foods({
-    portionsAvailable: 10,
-    timeRange: {start: , end: null},
+    portionsAvailable: req.body.portions,
+    timeRange: {start: startDate, end: endDate},
     name: req.body.name,
     images: [null],
     description: req.body.description,
@@ -229,9 +237,8 @@ app.post('/food/submit', function(req, res){
       console.log(err);
       res.status(500).send(err);
     }
+    res.redirect("/");
   });
-  */
-    res.redirect('/');
 })
 
 
