@@ -13,6 +13,12 @@ mixin food_display2(food, columns)
         span(class=['card-title'])
           a(class=['waves-light', 'btn', 'blue-grey', 'darken-2']) #{food.name}
       div(class='card-content')
-        h5 #{food.description}
-
+        div(class='row')
+          div(class='left')
+            h5 #{food.description}
+            h6 #{food.portionsAvailable + " " + food.portionDefinition}
+            //h3 #{}
+          div(class='right')
+            div(class='chip')
+              img(src='img/user.jpg')
 
