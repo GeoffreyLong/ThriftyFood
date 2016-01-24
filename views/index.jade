@@ -1,22 +1,22 @@
 extends nav_layout
 
 block content
-  div(class=['container', 'food-item-grid'])
-    each f in foods
-      +food_display(f)
+  div(class=['row'])
+    each food in foods
+      +food_display2(food, 's6')
 
-mixin food_display(food)
-  div(class=['food-item-container', 'row'])
-    div(class=['col-xs-4', 'food-item-img', 'nopadding'])
-      - var img = 'img/food.jpg'
-      img(src=img, class='img-responsive')
-
-    div(class=['col-xs-8', 'food-item-info', 'nopadding'])
-      div(class=['food-item-title'])
+mixin food_display2(food, columns)
+  div(class=['col', columns])
+    div(class='card')
+      div(class='card-image food-image')
+        img(src='img/food.jpg')
+        span(class=['card-title'])
+          a(class=['waves-light', 'btn', 'blue-grey', 'darken-2']) #{food.name}
+          //h3(class='food-title') #{food.name}
+      div(class='card-content')
+        p #{food.description}
+      div(class='card-action')
         -var userEndpoint = '/users/' + food.sellerId
-        h1
-          a(href=userEndpoint) #{food.name}
-      div(class='food-item-description')
-        p= food.description
+        a(href=userEndpoint) #{food.name}
 
 
