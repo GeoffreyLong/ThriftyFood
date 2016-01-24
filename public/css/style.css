@@ -1,4 +1,8 @@
 
+.nav-wrapper {
+  font-weight: 200;
+}
+
 .nopadding {
   padding: 0 !important;
   margin: 0 !important;
@@ -6,6 +10,12 @@
 
 .food-card{
   overflow: hidden;
+}
+
+.std-nav-margins {
+  position: absolute;
+  left: 5%;
+  right: 5%;
 }
 
 .content-bottom {

@@ -1,7 +1,7 @@
 extends nav_layout
 
 block content
-  div(class=['row'])
+  div(class=['row', 'std-nav-margins'])
     each food in foods
       +food_display(food, 's6')
 //  - for(var i = 0; i < foods.length; i++)

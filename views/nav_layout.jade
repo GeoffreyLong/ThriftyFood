@@ -1,16 +1,18 @@
 extends base_layout
 
+
 block nav
   nav(class=['blue-grey darken-2'])
-    div(class='nav-wrapper')
-      a(href='/', class='brand-logo') FOOD
-      ul(class=['right', 'hide-on-med-and-down'])
-        - if(!curUserName)
-            li
-              a(href='/users/new') LOGIN
-        - else
-            - var userEndpoint = '/users/' + curUserName
-            li
-              a(href=userEndpoint) MY ACCOUNT
-        li
-          a(href='/food/new') SELL
+    div(class='std-nav-margins')
+      div(class='nav-wrapper')
+        a(href='/', class='brand-logo') FOOD MONGERER
+        ul(class=['right', 'hide-on-med-and-down'])
+          - if(!curUserName)
+              li
+                a(href='/users/new') LOGIN
+          - else
+              - var userEndpoint = '/users/' + curUserName
+              li
+                a(href=userEndpoint) MY ACCOUNT
+          li
+            a(href='/food/new') SELL
