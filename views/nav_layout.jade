@@ -1,21 +1,11 @@
 extends base_layout
 
 block nav
-  //nav.navbar.navbar-default( role="navigation" )
-  //  .navbar-header
-  //    button.navbar-toggle.collapsed( type="button", data-toggle="collapse", data-target="#navbar-inverse", aria-expanded="false", aria-controls="navbar")
-  //      span.sr-only Toggle navigation
-  //      span.icon-bar
-  //      span.icon-bar
-  //      span.icon-bar
-  //    a.navbar-brand(href="#") Food ap
-
-  //div(class=['navbar-fixed'])
   nav(class=['blue-grey darken-2'])
     div(class='nav-wrapper')
-      a(href='#', class='brand-logo') FOOD
+      a(href='/', class='brand-logo') FOOD
       ul(class=['right', 'hide-on-med-and-down'])
         li
-          a(href='#') LOGIN
+          a(href='/users/new') LOGIN
         li
-          a(href='#') SELL
+          a(href='/food/new') SELL

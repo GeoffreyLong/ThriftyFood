@@ -12,11 +12,7 @@ mixin food_display2(food, columns)
         img(src='img/food.jpg')
         span(class=['card-title'])
           a(class=['waves-light', 'btn', 'blue-grey', 'darken-2']) #{food.name}
-          //h3(class='food-title') #{food.name}
       div(class='card-content')
-        p #{food.description}
-      div(class='card-action')
-        -var userEndpoint = '/users/' + food.sellerId
-        a(href=userEndpoint) #{food.name}
+        h5 #{food.description}
 
 
