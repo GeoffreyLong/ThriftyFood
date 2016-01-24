@@ -186,8 +186,18 @@ app.get('/', function(req, res) {
     }  
     else{
       console.log(foods);
-      res.render('index', { title: 'Food App', script: '/javascripts/index.js', 
-                            foods: foods});
+      
+      Sellers.findById(foods.sellerId, function(err2,seller){
+        if (err2){
+          console.log(err2);
+          res.status(500).send(err2);
+        }  
+        else{
+          console.log(seller);
+          res.render('index', { title: 'Food App', script: '/javascripts/index.js', 
+                                foods: foods, seller:seller});
+        }
+      });
     }
   });
 });
