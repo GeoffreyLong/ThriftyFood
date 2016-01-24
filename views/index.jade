@@ -1,6 +1,22 @@
-extends layout
+extends nav_layout
 
 block content
   h1= title
   p Welcome to #{title}
-  p #{food.name}
+  //p #{food.name}
+  //p
+  //  = foods.name
+
+  each f in foods
+    +food_box(f)
+
+mixin food_box(food)
+  ul
+    li= food.name
+    li= food.portionsAvailable
+    li= food.description
+    li
+      =:markdown
+
+
+

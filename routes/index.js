@@ -86,6 +86,10 @@ Foods.find().count(function(err, count){
   }
 });
 
+app.get('/landing', function(req, res){
+  res.render('landing', {title: 'Food App', script: 'javascripts/landing.js'})
+})
+
 
 /* GET home page. */
 app.get('/', function(req, res) {
@@ -98,7 +102,7 @@ app.get('/', function(req, res) {
     else{
       console.log(foods);
       res.render('index', { title: 'Food App', script: '/javascripts/index.js', 
-                            food: foods});
+                            foods: foods});
     }
   });
 });
