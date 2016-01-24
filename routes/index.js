@@ -19,7 +19,14 @@ var FoodSchema = new Schema({
     images: [String],
     description: String,
     portionDefinition: String,
-    address: String,
+    address: {
+      country: String,
+      state: String,
+      city: String,
+      street: String,
+      number: String, // since you could probably have like 114A
+      // TODO apt #?
+    },
     sellerId: mongoose.Schema.Types.ObjectId,
 });
 var UserSchema = new Schema({
@@ -78,7 +85,9 @@ Foods.find().count(function(err, count){
       images: [null],
       description: "I heard this is good",
       portionDefinition: "Pooptons of good food",
-      address: "We should probably make this an object later",
+      address: {
+        
+      },
       sellerId: mongoose.Types.ObjectId("56a4244bd496bd063c807d46"),
     }).save(function(err,saved){
       if (err) console.log(err);
@@ -161,6 +170,11 @@ app.get('/landing', function(req, res){
   res.render('landing', {title: 'Food App', script: 'javascripts/landing.js'})
 })
 
+// Saving the id of the user will make it easier to do things
+// Probably not the best practice, but performancewise it should be fine
+// The id doesn't change often and we can just save it when the user logs on
+// For now we will use this dummy value
+curId = mongoose.Types.ObjectId("56a4244bd496bd063c807d46"); 
 
 /* GET home page. */
 app.get('/', function(req, res) {
@@ -172,14 +186,52 @@ app.get('/', function(req, res) {
     }  
     else{
       console.log(foods);
-      res.render('index', { title: 'Food App', script: '/javascripts/index.js', 
-                            foods: foods});
+      
+      Sellers.findById(foods.sellerId, function(err2,seller){
+        if (err2){
+          console.log(err2);
+          res.status(500).send(err2);
+        }  
+        else{
+          console.log(seller);
+          res.render('index', { title: 'Food App', script: '/javascripts/index.js', 
+                                foods: foods, seller:seller});
+        }
+      });
     }
   });
 });
 
 app.get('/food/new', function(req, res){
   res.render('newfood', {title: 'Food App', script: 'javascripts/landing.js'})
+})
+
+app.post('/food/submit', function(req, res){
+  console.log(req.body);
+  /*
+  new Foods({
+    portionsAvailable: 10,
+    timeRange: {start: , end: null},
+    name: req.body.name,
+    images: [null],
+    description: req.body.description,
+    portionDefinition: req.body.portionDef,
+    address: {
+      country: req.body.country,
+      state: req.body.state,
+      city: req.body.city,
+      street: req.body.street,
+      number: req.body.number,
+    },
+    sellerId: curId,
+  }).save(function(err,saved){
+    if (err){
+      console.log(err);
+      res.status(500).send(err);
+    }
+  });
+  */
+    res.redirect('/');
 })
 
 

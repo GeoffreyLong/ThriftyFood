@@ -1,0 +1,52 @@
+extends nav_layout
+
+block content
+  div
+    form(name="newFood", action="/food/submit", method="post")
+      table
+        tr
+          td Name:
+          td 
+            input(type="text", name="name")
+        tr
+          td Description:
+          td
+            input(type="text", name="description")
+        tr
+          td Portions Available: 
+          td
+            input(type="text", name="portions")
+        tr
+          td Portion Definition:
+          td
+            input(type="text", name="portionDef")
+        tr
+          td Pickup Date:
+          td
+            input(type="date", name="date")
+          td Start Time:
+          td
+            input(type="time", name="startTime")
+          td End Time:
+          td
+            input(type="time", name="endTime")
+        tr
+          td Country: 
+          td
+            input(type="text", name="country")
+          td State/Province: 
+          td
+            input(type="text", name="state")
+          td City:
+          td
+            input(type="text", name="city")
+          td Street:
+          td
+            input(type="text", name="street")
+          td House Number:
+          td
+            input(type="text", name="number")
+        tr
+          td
+            input(type="submit", value="submit")
+
