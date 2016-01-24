@@ -16,7 +16,11 @@ mixin food_box(food)
     li= food.portionsAvailable
     li= food.description
     li
-      :markdown
-        [test](https://google.com)
+      - var userEndpoint = '/users/' + food.sellerId
+      a(href=userEndpoint) Seller
 
+mixin food_display(food)
+  div
+    - var img = (typeof food.image === 'undefined') ? 'img/food.jpg' : food.image
+    img(src=img)
 
