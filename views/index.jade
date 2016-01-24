@@ -2,16 +2,17 @@ extends nav_layout
 
 block content
   div(class=['row', 'std-nav-margins'])
-    each food in foods
-      +food_display(food, 's6')
+    - var images = ['img/food.jpg', 'http://blogs.uoregon.edu/natewoodburyaad250/files/2012/10/PSD_Food_illustrations_3190_pancakes_with_butter-1wi1tz5.jpg', 'http://40.media.tumblr.com/a918f0fc90fdeedb1d9b7cffd9d0f38f/tumblr_nwzu5tD04q1uktchdo1_1280.jpg']
+    each food, index in foods
+      +food_display(food, 's6', images[index])
 
 
-mixin food_display(food, col_span)
+mixin food_display(food, col_span, img_path)
   div(class=['col', col_span])
     div(class=['card', 'food-card', 'blue-grey', 'lighten-5'])
 
       div(class=['card-image'])
-        img(  src='img/food.jpg')
+        img(src=img_path)
         span(class=['card-title'])
           a(class=['waves-light', 'btn', 'blue-grey', 'darken-2', 'activator']) #{food.name}
 
@@ -26,14 +27,15 @@ mixin food_display(food, col_span)
           h5 #{food.name}
           h6 #{food.description}
           h6 #[b #{food.portionsAvailable}] servings ready at
-            |$#[b #{parseFloat(Math.round(food.price * 100) / 100).toFixed(2)}.]
+            | $#[b #{parseFloat(Math.round(food.price * 100) / 100).toFixed(2)}.]
+          h6 #{food.address.number + " " + food.address.street}
 
         span(class='content-bottom')
           div(class=['row'])
             div(class=['payment-errors'])
               //input(name='quantity', type='number', size='10', value='1')
-              div(class='row')
-                input(name='quantity', type='number', size='10', value='1')
+              //div(class='row')
+              //  input(name='quantity', type='number', size='10', value='1')
               div(class='row')
                 div(class=['col', 's6'])
                   input(name='number', placeholder='Credit Card Number')

@@ -1,7 +1,20 @@
-//extends layout
+extends nav_layout
 
 block content
-  //h1= title
-  //p Welcome to #{title}
-  div(class='col-md-12 padding-0')
-    img(src='img/food.jpg')
+  //div(class='parallax-container')
+  //  div(class='parallax')
+  //    img(src='img/food.jpg')
+
+  div(class=['row', 'vertical-center', 'landing-banners'])
+    div(class=['card', 'large', 'col', 's10', 'offset-s1', 'teal'])
+      div(class='card-title')
+        h1 Welcome to Food
+      div(class='card-content')
+        h3 Your one stop shop for food
+
+
+
+mixin cardify()
+
+
+
