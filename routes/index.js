@@ -203,7 +203,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/food/new', function(req, res){
-  res.render('newfood', {title: 'Food App', script: 'javascripts/landing.js'})
+  res.render('newfood');
 })
 
 app.post('/food/submit', function(req, res){
@@ -241,6 +241,38 @@ app.post('/food/submit', function(req, res){
   });
 })
 
+app.get('/users/new', function(req,res){
+  res.render('newuser');
+});
+
+
+// TODO handle mismatching passwords in javascript file
+app.post('/users/submit', function(req, res){
+  console.log(req.body)
+  if (req.body.usersubmit){
+    new Sellers({
+      userName: req.body.username,
+    }).save(function(err,saved){
+      if (err){
+        console.log(err);
+        res.status(500).send(err);
+      }
+      res.redirect("/");
+    });
+  }
+  else{
+    new Users({
+      userName: req.body.username,
+    }).save(function(err,saved){
+      if (err){
+        console.log(err);
+        res.status(500).send(err);
+      }
+      res.redirect("/");
+    });
+
+  }
+});
 
 module.exports = app;
 
