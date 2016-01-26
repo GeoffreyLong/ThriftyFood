@@ -11,16 +11,16 @@ block content
               form(name='usersubmit', action='/users/submit', method='post')
                 div(class='row')
                   div(class=['input-field'])
-                    input(type="text", name="username", class="userfield", placeholder='Username')
+                    input(type="text", name="username", class="userfield", id="buyerUserField", placeholder='Username')
                 div(class='row')
                   div(class='input-field')
-                    input(type="password", class="pass", name="password", placeholder='Password')
+                    input(type="password", class="pass", id="buyerPass", name="password", placeholder='Password')
                 div(class='row')
                   div(class='input-field')
-                    input(type="password", class="passCheck", name="password2", placeholder='Re-enter password')
+                    input(type="password", class="passCheck", id="buyerPassCheck", name="password2", placeholder='Re-enter password')
                 div(class='row')
                   button(class=['btn-large', 'waves-effect',
-                    'waves-light', 'col', 's12'], type='submit', name='usersubmit') Create buyer account
+                    'waves-light', 'col', 's12', 'newUserSubmit'], id = 'buyerSubmit', type='submit', name='usersubmit', disabled = 'true') Create buyer account
                     i(class=['material-icons', 'right']) send
 
       div(class=['col', 's6'])
@@ -30,15 +30,15 @@ block content
               form(name='sellersubmit', action='/users/submit', method='post')
                 div(class='row')
                   div(class=['input-field'])
-                    input(type="text", name="username", class="userfield", placeholder='Username')
+                    input(type="text", name="username", class="seller", id="sellerUserField", placeholder='Username')
                 div(class='row')
                   div(class='input-field')
-                    input(type="password", class="pass", name="password", placeholder='Password')
+                    input(type="password", class="seller", id="sellerPass", name="password", placeholder='Password')
                 div(class='row')
                   div(class='input-field')
-                    input(type="password", class="passCheck", name="password2", placeholder='Re-enter password')
+                    input(type="password", class="seller", id="sellerPassCheck", name="password2", placeholder='Re-enter password')
                 div(class='row')
                   button(class=['btn-large', 'waves-effect',
-                    'waves-light', 'col', 's12'], type='submit', name='sellersubmit') Create seller account
+                    'waves-light', 'col', 's12', 'newUserSubmit'], id='sellerSubmit', type='submit', name='sellersubmit', disabled = 'true') Create seller account
                     i(class=['material-icons', 'right']) send
 
