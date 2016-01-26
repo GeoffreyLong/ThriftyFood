@@ -217,7 +217,7 @@ Foods.find().count(function(err, count){
 
 
 app.get('/landing', function(req, res){
-  res.render('landing', {title: 'Food App', script: 'javascripts/landing.js'})
+  res.render('landing', {title: 'Food App', script: 'landing.js'})
 })
 
 
@@ -245,7 +245,7 @@ app.get('/', function(req, res) {
           console.log(err2);
           res.status(500).send(err2);
         }
-        res.render('index', { title: 'Food App', script: '/javascripts/index.js', 
+        res.render('index', { title: 'Food App', script: 'index.js', 
                               foods:foods, seller:seller, curUserName: req.session.userName,
                               curUserType: req.session.type, curUserId: req.session.userId});
       });
@@ -254,8 +254,8 @@ app.get('/', function(req, res) {
 });
 
 app.get('/food/new', function(req, res){
-  res.render('newfood', {curUserName: req.session.userName,
-                        curUserType: req.session.type, curUserId: req.session.userId, script: 'javascripts/newfood.js'});
+  res.render('newfood', {script: 'newfood.js', curUserName: req.session.userName,
+                        curUserType: req.session.type, curUserId: req.session.userId, script: 'newfood.js'});
 })
 
 app.post('/food/submit', function(req, res){
@@ -315,7 +315,7 @@ app.post('/food/submit', function(req, res){
 })
 
 app.get('/users/new', function(req,res){
-  res.render('newuser', {script: '../javascripts/newuser.js'})
+  res.render('newuser', {script: 'newuser.js'})
 });
 
 
