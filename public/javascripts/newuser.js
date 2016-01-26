@@ -19,29 +19,20 @@ $(document).ready(function(){
       submitBtn = $('#buyerSubmit');
     }
 
-    if (userName.val().length >= 5){
-      userName.removeClass('invalid');
+    if ($(this).val().length < 5 && $(this).val().length != 0){
+      $(this).addClass('invalid');
     }
     else{
-      userName.addClass('invalid');
+      $(this).removeClass('invalid');
     }
 
-    if (pass.val().length >= 5){
-      pass.removeClass('invalid');
-    }
-    else{
-      pass.addClass('invalid');
-    }
-
-    if (pass.val() == passCheck.val() && pass.val().length >= 5){
-      passCheck.removeClass('invalid');
+    if (pass.val() == passCheck.val() && pass.val().length >= 5 && userName.val().length >= 5){
       passCheck.addClass('valid');
       pass.addClass('valid');
       userName.addClass('valid');
       submitBtn.prop('disabled', false);
     }
     else{
-      passCheck.addClass('invalid');
       passCheck.removeClass('valid');
       pass.removeClass('valid');
       userName.removeClass('valid');

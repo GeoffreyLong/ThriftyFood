@@ -11,13 +11,13 @@ block content
               form(name='usersubmit', action='/users/submit', method='post')
                 div(class='row')
                   div(class=['input-field'])
-                    input(type="text", name="username", class="userfield", id="buyerUserField", placeholder='Username')
+                    input(type="text", name="username", id="buyerUserField", placeholder='Username')
                 div(class='row')
                   div(class='input-field')
-                    input(type="password", class="pass", id="buyerPass", name="password", placeholder='Password')
+                    input(type="password", id="buyerPass", name="password", placeholder='Password')
                 div(class='row')
                   div(class='input-field')
-                    input(type="password", class="passCheck", id="buyerPassCheck", name="password2", placeholder='Re-enter password')
+                    input(type="password", id="buyerPassCheck", name="password2", placeholder='Re-enter password')
                 div(class='row')
                   button(class=['btn-large', 'waves-effect',
                     'waves-light', 'col', 's12', 'newUserSubmit'], id = 'buyerSubmit', type='submit', name='usersubmit', disabled = 'true') Create buyer account
