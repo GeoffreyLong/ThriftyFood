@@ -10,7 +10,7 @@ block nav
 
   nav(class=['blue-grey darken-2'])
     div(class='nav-wrapper')
-      div(class='std-nav-margins')
+      div(class='std-margins')
         a(href='/', class='brand-logo') FOOD
         ul(class=['right', 'hide-on-med-and-down'])
           - if(curUserType == 'seller')
@@ -24,12 +24,14 @@ block nav
           - else
             - var userEndpoint = '/users/' + curUserId
             li
-              a(class=['dropdown-button', 'btn'], href='#', data-activates='user-dropdown') #{curUserName}
+              a(href='/users/logout') LOGOUT
+            li
+              a(class=['dropdown-button', 'btn'], href='#') #{curUserName}
+              //a(class=['dropdown-button', 'btn'], href='#', data-activates='user-dropdown') #{curUserName}
 
 block footer
-
   div(class=['fixed-action-btn', 'food-action-btn'])
-    a(class=['btn', 'btn-floating', 'btn-large', 'teal', 'waves-effect', 'modal-trigger'])
+    a(class=['btn', 'btn-floating', 'btn-large', 'teal', 'waves-effect'])
       i(class='material-icons') more_vert
 
     ul
@@ -47,7 +49,7 @@ block footer
 
       li(class=['btn-floating', 'grey', 'darken-3'])
         a(href='https://github.com/GeoffreyLong/ThriftyFood')
-          i(class='fa fa-github')
+          i(class=['fa', 'fa-github'])
 
   div(id='help-modal', class=['modal', 'bottom-sheet'])
     div(class='modal-content')

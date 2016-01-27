@@ -217,7 +217,7 @@ Foods.find().count(function(err, count){
 
 
 app.get('/landing', function(req, res){
-  res.render('landing', {title: 'Food App', script: 'javascripts/landing.js'})
+  res.render('landing', {title: 'Food App', script: '/javascripts/landing.js'})
 })
 
 
@@ -255,7 +255,7 @@ app.get('/', function(req, res) {
 
 app.get('/food/new', function(req, res){
   res.render('newfood', {curUserName: req.session.userName,
-                        curUserType: req.session.type, curUserId: req.session.userId, script: 'javascripts/newfood.js'});
+                        curUserType: req.session.type, curUserId: req.session.userId, script: '/javascripts/newfood.js'});
 })
 
 app.post('/food/submit', function(req, res){

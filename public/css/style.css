@@ -4,6 +4,10 @@
   letter-spacing: 1px;
 }
 
+.parallax-container {
+  height: 25px;
+}
+
 .landing-banner {
   font-weight: 600;
 }
@@ -31,7 +35,7 @@
   overflow: hidden;
 }
 
-.std-nav-margins {
+.std-margins {
   position: absolute;
   left: 10%;
   right: 10%;
