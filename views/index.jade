@@ -34,8 +34,8 @@ mixin food_display(food, img_path)
         h5 #{food.name}
         h6 #{food.description}
         h6 #[b #{food.portionsAvailable}] servings ready at
-          | #[b #{" $" + parseFloat(Math.round(food.price * 100) / 100).toFixed(2)}.]
-        h6 #{food.address.number + " " + food.address.street}
+          | #[b #{" $" + parseFloat(Math.round(food.price * 100) / 100).toFixed(2)}] each.
+        h6 #{food.address.number + " " + food.address.street + ", " + food.address.city}
 
       span(class='content-bottom')
         div(class=['row'])
