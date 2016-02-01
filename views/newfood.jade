@@ -4,7 +4,7 @@ block content
   div(class='container')
     div(class='card')
       div(class='card-content')
-        form(name='newFood', action='/food/submit', method='post')
+        form(name='newFood', action='/food/submit', method='post', enctype="multipart/form-data")
 
           div(class='row')
             div(class=['input-field'])
@@ -17,7 +17,7 @@ block content
             div(class=['file-field', 'input-field'])
               div(class=['btn'])
                 span File
-                input(type='file')
+                input(type='file', name='coverImage')
               div(class='file-path-wrapper')
                 input(class=['file-path', 'validate'], type='text', placeholder='Cover Photo', name='imgFile')
 

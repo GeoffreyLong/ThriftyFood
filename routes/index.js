@@ -9,6 +9,9 @@ var express = require('express');
 var mongo = require('mongodb');
 var fs = require('fs');
 var Grid = require('gridfs-stream');
+var multer = require('multer');
+// var upload = multer({ dest: 'tmp/' }); //TODO pUPLOADS
+var upload = multer({ dest: 'public/img/' });
 var app = express();
 
 app.use(cookieParser());
@@ -24,6 +27,9 @@ mongoose.connect('mongodb://localhost/ThriftyFood', function (error) {
   }
 });
 
+var conn = mongoose.connection
+Grid.mongo = mongoose.mongo;
+var gfs = Grid(conn.db);
 //TODO Add creation schema (i.e. when person first plays game, need maps to load)
 var Schema = mongoose.Schema;
 
@@ -133,7 +139,7 @@ Foods.find().count(function(err, count){
               portionsAvailable: 10,
               timeRange: {start: null, end: null},
               name: "Fish Salad Spectaculare",
-              images: [null],
+              images: ['img/food1.jpg'],
               description: "A flaky slice of heaven that simply melts in your mouth.",
               portionDefinition: "6oz Fish, 6oz salad",
               price: 7.80,
@@ -153,7 +159,7 @@ Foods.find().count(function(err, count){
                 portionsAvailable: 24,
                 timeRange: {start: null, end: null},
                 name: "Pancakes",
-                images: [null],
+                images: ['img/food2.jpg'],
                 description: "Buttery deliciousness; rated best in MTL (syrup optional)",
                 portionDefinition: "4 pancakes",
                 price: 5.00,
@@ -172,7 +178,7 @@ Foods.find().count(function(err, count){
                   portionsAvailable: 1,
                   timeRange: {start: null, end: null},
                   name: "Ambrosia",
-                  images: [null],
+                  images: ['img/food3.jpg'],
                   description: "It's got bits of real panther in it",
                   portionDefinition: "A dash",
                   price: 10000.00,
@@ -258,9 +264,11 @@ app.get('/food/new', function(req, res){
                         curUserType: req.session.type, curUserId: req.session.userId, script: 'newfood.js'});
 })
 
-app.post('/food/submit', function(req, res){
-  console.log(req.body);
+app.post('/food/submit', upload.any('test'), function(req, res){
+  //console.log(req.body);
+  //console.log(req.files);
 
+  // will get the cover photo info 
   var dateTokens = req.body.date.split("-");
   var startTokens = req.body.startTime.split(":");
   var endTokens = req.body.endTime.split(":");
@@ -269,49 +277,46 @@ app.post('/food/submit', function(req, res){
   var endDate = new Date(dateTokens[0], dateTokens[1], dateTokens[2],
     startTokens[0], startTokens[1], 0, 0);
     
-  // Adapted from http://excellencenodejsblog.com/gridfs-using-mongoose-nodejs/
-  // This will hopefully take the file from the input field imgFile
-  // Need to check when the submit fn works
-  var conn = mongoose.connection
-  Grid.mongo = mongoose.mongo;
-  conn.once('open', function () {
-    console.log('open');
-    var gfs = Grid(conn.db);
-   
-    var writestream = gfs.createWriteStream({
-      // TODO should be dynamic based on imgFile
-      filename: 'mongo_file.jpg'
-    });
-    // this is the file that is written
-    fs.createReadStream('./public/img/food.jpg').pipe(writestream);
- 
-    writestream.on('close', function (file) {
-        console.log(file.filename + 'Written To DB');
-    });
-  });
+  var cPhoto = req.files[0];
+  //var cPhotoName = cPhoto.path + "." + cPhoto.mimetype.split("/")[1];
+  var cPhotoName = "img/" + cPhoto.filename;
 
-  new Foods({
-    portionsAvailable: req.body.portions,
-    timeRange: {start: startDate, end: endDate},
-    name: req.body.name,
-    images: [null],
-    description: req.body.description,
-    portionDefinition: req.body.portionDef,
-    address: {
-      country: req.body.country,
-      state: req.body.state,
-      city: req.body.city,
-      street: req.body.street,
-      number: req.body.number,
-    },
-    sellerId: req.session.userId,
-  }).save(function(err,saved){
-    if (err){
-      console.log(err);
-      res.status(500).send(err);
-    }
-    res.redirect("/");
-  });
+  //TODO pUPLOADS for now use the simple filesystem?
+  // Adapted from http://excellencenodejsblog.com/gridfs-using-mongoose-nodejs/
+  // Alternatively could do http://howtonode.org/really-simple-file-uploads?
+  // The name of the file
+  //var writestream = gfs.createWriteStream({filename: req.files[0].filename});
+  // The file that is written
+  //fs.createReadStream(req.files[0].path).pipe(writestream);
+
+  //writestream.on('close', function (file) {
+  //  console.log(file.filename + ' written To DB');
+    new Foods({
+      portionsAvailable: req.body.portions,
+      timeRange: {start: startDate, end: endDate},
+      name: req.body.name,
+  //    images: [file._id],        //TODO pUPLOADS
+      images: [cPhotoName],        // For now we will use the simple way
+                                   // idk if the other way is even better
+      description: req.body.description,
+      portionDefinition: req.body.portionDef,
+      address: {
+        country: req.body.country,
+        state: req.body.state,
+        city: req.body.city,
+        street: req.body.street,
+        number: req.body.number,
+      },
+      sellerId: req.session.userId,
+    }).save(function(err,saved){
+      if (err){
+        console.log(err);
+        res.status(500).send(err);
+      }
+      res.redirect("/");
+    });
+  //});
+
 })
 
 app.get('/users/new', function(req,res){
@@ -428,20 +433,5 @@ app.get('/users/logout', function(req,res){
     res.redirect('/');
   });
 });
-/*
-// Adapted from http://stackoverflow.com/questions/16482233/store-file-in-mongos-gridfs-with-expressjs-after-upload
-FileRepository.prototype.getFile = function(callback,id) {
-   var gs = new GridStore(this.db, new ObjectID(id), 'r');
-   gs.open(function(err,gs){
-      gs.read(callback);
-   });
- };
-app.get('/img/:imgId', function(req, res) {
-  fileRepository.getFile(function(error,data) {
-     res.writeHead('200', {'Content-Type': 'image/png'});
-     res.end(data,'binary');
-  }, req.params.imgId);
-});
-*/
-module.exports = app;
 
+module.exports = app;
