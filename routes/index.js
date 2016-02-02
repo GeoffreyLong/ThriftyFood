@@ -12,6 +12,8 @@ var Grid = require('gridfs-stream');
 var multer = require('multer');
 // var upload = multer({ dest: 'tmp/' }); //TODO pUPLOADS
 var upload = multer({ dest: 'public/img/' });
+var bcrypt = require('bcrypt');
+
 var app = express();
 
 app.use(cookieParser());
@@ -96,30 +98,31 @@ Foods.find().count(function(err, count){
     var foodID2 = null;
     var foodID3 = null;
 
+
     new Users({ 
       userName: "User_One",
-      password: "User_One",
+      password: bcrypt.hashSync("User_One", bcrypt.genSaltSync(10)),
     }).save(function(err,saved){
       if (err) console.log(err);
       userID1 = saved._id;
       
       new Users({ 
         userName: "User_Two",
-        password: "TwoUsers",
+        password: bcrypt.hashSync("User_Two", bcrypt.genSaltSync(10)),
       }).save(function(err,saved){
         if (err) console.log(err);
         userID2 = saved._id;
         
         new Users({ 
           userName: "Bobby_Tables",
-          password: "hello",
+          password: bcrypt.hashSync("hello", bcrypt.genSaltSync(10)),
         }).save(function(err,saved){
           if (err) console.log(err);
           userID3 = saved._id;
 
           new Sellers({
             userName: "Seller_One",
-            password: "Seller_One",
+            password: bcrypt.hashSync("Seller_One", bcrypt.genSaltSync(10)),
             currentFoodItems: [],
             pastFoodItems: [],  
             reviews: [{
@@ -329,33 +332,51 @@ app.post('/users/submit', function(req, res){
   console.log(req.body);
   console.log(JSON.stringify(req.body));
   if ('usersubmit' in req.body){
-    new Users({
-      userName: req.body.username,
-      password: req.body.password,
-    }).save(function(err,saved){
-      if (err){
-        console.log(err);
-        res.status(500).send(err);
-      }
-      req.session.userId = saved._id;
-      req.session.userName = saved.userName;
-      req.session.type = 'user';
-      res.redirect("/");
+    bcrypt.genSalt(10, function(err, salt) {
+        bcrypt.hash(req.body.username, salt, function(err, hash) {
+          if (err){
+            console.log(err);
+            res.status(500).send(err);
+          }
+
+          new Users({
+            userName: req.body.username,
+            password: hash,
+          }).save(function(err,saved){
+            if (err2){
+              console.log(err);
+              res.status(500).send(err);
+            }
+            req.session.userId = saved._id;
+            req.session.userName = saved.userName;
+            req.session.type = 'user';
+            res.redirect("/");
+          });
+        });
     });
   }
   else{
-    new Sellers({
-      userName: req.body.username,
-      password: req.body.password,
-    }).save(function(err,saved){
-      if (err){
-        console.log(err);
-        res.status(500).send(err);
-      }
-      req.session.userId = saved._id;
-      req.session.userName = saved.userName;
-      req.session.type = 'seller';
-      res.redirect("/");
+    bcrypt.genSalt(10, function(err, salt) {
+        bcrypt.hash(req.body.username, salt, function(err, hash) {
+          if (err){
+            console.log(err);
+            res.status(500).send(err);
+          }
+
+          new Sellers({
+            userName: req.body.username,
+            password: hash,
+          }).save(function(err,saved){
+            if (err2){
+              console.log(err);
+              res.status(500).send(err);
+            }
+            req.session.userId = saved._id;
+            req.session.userName = saved.userName;
+            req.session.type = 'seller';
+            res.redirect("/");
+          });
+        });
     });
   }
 });
@@ -389,15 +410,18 @@ app.post('/users/login', function(req,res){
     if (user.length != 0){
       var userId = user[0]._id;
       var userName = user[0].userName;
-      if (req.body.password != user[0].password){
-        res.redirect('/users/login');
-      }
-      else{
-        req.session.userId = userId;
-        req.session.userName = userName;
-        req.session.type = 'user';
-        res.redirect('/');
-      }
+      bcrypt.compare('req.body.password', user[0].password, function(herr, hres) {
+        if (herr) res.status(500).send(herr);
+        if (hres){
+          req.session.userId = userId;
+          req.session.userName = userName;
+          req.session.type = 'user';
+          res.redirect('/');
+        }
+        else{
+          res.redirect('/users/login');
+        }
+      });     
     }
     else{
       Sellers.find({'userName':req.body.username}, function(err2, seller){
@@ -405,15 +429,18 @@ app.post('/users/login', function(req,res){
         if (seller.length != 0){
           var userId = seller[0]._id;
           var userName = seller[0].userName;
-          if (req.body.password != seller[0].password){
-            res.redirect('/users/login');
-          }
-          else{
-            req.session.userId = userId;
-            req.session.userName = userName;
-            req.session.type = 'seller';
-            res.redirect('/');
-          }
+          bcrypt.compare('req.body.password', seller[0].password, function(herr2, hres2) {
+            if (herr2) res.status(500).send(herr);
+            if (hres2){
+              req.session.userId = userId;
+              req.session.userName = userName;
+              req.session.type = 'seller';
+              res.redirect('/');
+            }
+            else{
+              res.redirect('/users/login');
+            }
+          });
         }
         else{
           //TODO should give an error message
