@@ -334,7 +334,7 @@ app.post('/users/submit', function(req, res){
   console.log(JSON.stringify(req.body));
   if ('usersubmit' in req.body){
     bcrypt.genSalt(10, function(err, salt) {
-        bcrypt.hash(req.body.username, salt, function(err, hash) {
+        bcrypt.hash(req.body.password, salt, function(err, hash) {
           if (err){
             console.log(err);
             res.status(500).send(err);
@@ -344,7 +344,7 @@ app.post('/users/submit', function(req, res){
             userName: req.body.username,
             password: hash,
           }).save(function(err,saved){
-            if (err2){
+            if (err){
               console.log(err);
               res.status(500).send(err);
             }
@@ -358,7 +358,7 @@ app.post('/users/submit', function(req, res){
   }
   else{
     bcrypt.genSalt(10, function(err, salt) {
-        bcrypt.hash(req.body.username, salt, function(err, hash) {
+        bcrypt.hash(req.body.password, salt, function(err, hash) {
           if (err){
             console.log(err);
             res.status(500).send(err);
@@ -368,7 +368,7 @@ app.post('/users/submit', function(req, res){
             userName: req.body.username,
             password: hash,
           }).save(function(err,saved){
-            if (err2){
+            if (err){
               console.log(err);
               res.status(500).send(err);
             }
