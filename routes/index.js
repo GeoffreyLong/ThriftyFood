@@ -1,5 +1,6 @@
-// TODO implement passport or some better means of passports
-// Salt and hash passwords
+//TODOs 
+//  Remove the redundancy in login and creating users
+//    The logic is basically duplicated
 
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser'); 
@@ -405,12 +406,14 @@ app.get('/users/login', function(req,res){
 // TODO this needs work... better error handling, etc
 // Consider using passport
 app.post('/users/login', function(req,res){
+
   Users.find({'userName':req.body.username}, function(err, user){
     if (err) res.status(500).send(err);
     if (user.length != 0){
       var userId = user[0]._id;
       var userName = user[0].userName;
-      bcrypt.compare('req.body.password', user[0].password, function(herr, hres) {
+      
+      bcrypt.compare(req.body.password, user[0].password, function(herr, hres) {
         if (herr) res.status(500).send(herr);
         if (hres){
           req.session.userId = userId;
@@ -429,7 +432,8 @@ app.post('/users/login', function(req,res){
         if (seller.length != 0){
           var userId = seller[0]._id;
           var userName = seller[0].userName;
-          bcrypt.compare('req.body.password', seller[0].password, function(herr2, hres2) {
+          bcrypt.compare(req.body.password, seller[0].password, function(herr2, hres2) {
+            console.log();
             if (herr2) res.status(500).send(herr);
             if (hres2){
               req.session.userId = userId;
