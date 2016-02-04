@@ -3,7 +3,7 @@ extends nav_layout
 block content
   div(class=['row', 'std-margins'])
     - var count = 0
-    - var images = ['img/food.jpg', 'http://blogs.uoregon.edu/natewoodburyaad250/files/2012/10/PSD_Food_illustrations_3190_pancakes_with_butter-1wi1tz5.jpg', 'http://40.media.tumblr.com/a918f0fc90fdeedb1d9b7cffd9d0f38f/tumblr_nwzu5tD04q1uktchdo1_1280.jpg']
+    - var images = ['img/food1.jpg', 'http://blogs.uoregon.edu/natewoodburyaad250/files/2012/10/PSD_Food_illustrations_3190_pancakes_with_butter-1wi1tz5.jpg', 'http://40.media.tumblr.com/a918f0fc90fdeedb1d9b7cffd9d0f38f/tumblr_nwzu5tD04q1uktchdo1_1280.jpg']
     - var half = foods.splice(0, Math.floor(foods.length / 2));
     div(class=['col', 's6'])
       each food in half
@@ -19,7 +19,7 @@ mixin food_display(food, img_path)
   div(class=['card', 'food-card', 'blue-grey', 'lighten-5'])
 
     div(class=['card-image'])
-      img(src=img_path)
+      img(src=food.images[0])
       span(class=['card-title'])
         a(class=['waves-light', 'btn', 'blue-grey', 'darken-2', 'activator']) #{food.name}
 
@@ -34,8 +34,8 @@ mixin food_display(food, img_path)
         h5 #{food.name}
         h6 #{food.description}
         h6 #[b #{food.portionsAvailable}] servings ready at
-          | #[b #{" $" + parseFloat(Math.round(food.price * 100) / 100).toFixed(2)}.]
-        h6 #{food.address.number + " " + food.address.street}
+          | #[b #{" $" + parseFloat(Math.round(food.price * 100) / 100).toFixed(2)}] each.
+        h6 #{food.address.number + " " + food.address.street + ", " + food.address.city}
 
       span(class='content-bottom')
         div(class=['row'])
