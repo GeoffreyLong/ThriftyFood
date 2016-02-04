@@ -1,12 +1,8 @@
-$(document).ready(function() {
+$(document).ready(function(){
     $('.modal-trigger').leanModal();
-});
-
-$(document).ready(function (){
+    // Where do we even use parallax?
+    $('.parallax').parallax();
     $('.dropdown-button').dropdown();
-});
-
-$(document).ready(function (){
     $('.collapsible').collapsible({
         accordion : false
     });
