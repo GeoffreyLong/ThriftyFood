@@ -1,9 +1,9 @@
-//TODOs 
+//TODOs
 //  Remove the redundancy in login and creating users
 //    The logic is basically duplicated
 
 var mongoose = require('mongoose');
-var bodyParser = require('body-parser'); 
+var bodyParser = require('body-parser');
 var expressSession = require('express-session');
 var cookieParser = require('cookie-parser');
 var express = require('express');
@@ -100,21 +100,21 @@ Foods.find().count(function(err, count){
     var foodID3 = null;
 
 
-    new Users({ 
+    new Users({
       userName: "User_One",
       password: bcrypt.hashSync("User_One", bcrypt.genSaltSync(10)),
     }).save(function(err,saved){
       if (err) console.log(err);
       userID1 = saved._id;
-      
-      new Users({ 
+
+      new Users({
         userName: "User_Two",
         password: bcrypt.hashSync("User_Two", bcrypt.genSaltSync(10)),
       }).save(function(err,saved){
         if (err) console.log(err);
         userID2 = saved._id;
-        
-        new Users({ 
+
+        new Users({
           userName: "Bobby_Tables",
           password: bcrypt.hashSync("hello", bcrypt.genSaltSync(10)),
         }).save(function(err,saved){
@@ -125,7 +125,7 @@ Foods.find().count(function(err, count){
             userName: "Seller_One",
             password: bcrypt.hashSync("Seller_One", bcrypt.genSaltSync(10)),
             currentFoodItems: [],
-            pastFoodItems: [],  
+            pastFoodItems: [],
             reviews: [{
               rating: 1,
               comment: "I don't like her cooking... I don't care if she's my mom, she gets one star",
@@ -138,7 +138,7 @@ Foods.find().count(function(err, count){
           }).save(function(err,saved){
             if (err) console.log(err);
             sellerID1 = saved._id;
-            
+
             new Foods({
               portionsAvailable: 10,
               timeRange: {start: null, end: null},
@@ -158,7 +158,7 @@ Foods.find().count(function(err, count){
             }).save(function(err,saved){
               if (err) console.log(err);
               foodID1 = saved._id;
-              
+
               new Foods({
                 portionsAvailable: 24,
                 timeRange: {start: null, end: null},
@@ -225,6 +225,9 @@ Foods.find().count(function(err, count){
   }
 });
 
+app.get('/maps', function(req, res){
+  res.render('maps', {title: 'Food', script: 'maps.js'})
+})
 
 app.get('/landing', function(req, res){
   res.render('landing', {title: 'Food App', script: 'landing.js'})
@@ -238,24 +241,24 @@ app.get('/', function(req, res) {
     if (err){
       console.log(err);
       res.status(500).send(err);
-    }  
+    }
     else{
       var sellerIds = [];
       for (var f in foods){
         sellerIds.push(foods[f].sellerId);
       }
 
-      // TODO test 
-      Sellers.aggregate([{$match: {_id: {$in: sellerIds}}}, 
+      // TODO test
+      Sellers.aggregate([{$match: {_id: {$in: sellerIds}}},
                         {$unwind: "$reviews"},
                         {$group: {_id:"$_id", userName:{$first: "$userName"},
                                    avgRating: {$avg: "$reviews.rating"}}}] , function(err2,seller){
-        
+
         if (err2){
           console.log(err2);
           res.status(500).send(err2);
         }
-        res.render('index', { title: 'Food App', script: 'index.js', 
+        res.render('index', { title: 'Food App', script: 'index.js',
                               foods:foods, seller:seller, curUserName: req.session.userName,
                               curUserType: req.session.type, curUserId: req.session.userId});
       });
@@ -272,7 +275,7 @@ app.post('/food/submit', upload.any('test'), function(req, res){
   //console.log(req.body);
   //console.log(req.files);
 
-  // will get the cover photo info 
+  // will get the cover photo info
   var dateTokens = req.body.date.split("-");
   var startTokens = req.body.startTime.split(":");
   var endTokens = req.body.endTime.split(":");
@@ -280,7 +283,7 @@ app.post('/food/submit', upload.any('test'), function(req, res){
     endTokens[0], endTokens[1], 0, 0);
   var endDate = new Date(dateTokens[0], dateTokens[1], dateTokens[2],
     startTokens[0], startTokens[1], 0, 0);
-    
+
   var cPhoto = req.files[0];
   //var cPhotoName = cPhoto.path + "." + cPhoto.mimetype.split("/")[1];
   var cPhotoName = "img/" + cPhoto.filename;
@@ -390,7 +393,7 @@ app.get('/seller/:id', function(req,res){
     if (err){
       console.log(err);
       res.status(500).send(err);
-    }  
+    }
     else{
       // Any more information needed?
       res.render('seller', { seller:seller });
@@ -412,7 +415,7 @@ app.post('/users/login', function(req,res){
     if (user.length != 0){
       var userId = user[0]._id;
       var userName = user[0].userName;
-      
+
       bcrypt.compare(req.body.password, user[0].password, function(herr, hres) {
         if (herr) res.status(500).send(herr);
         if (hres){
@@ -424,7 +427,7 @@ app.post('/users/login', function(req,res){
         else{
           res.redirect('/users/login');
         }
-      });     
+      });
     }
     else{
       Sellers.find({'userName':req.body.username}, function(err2, seller){
