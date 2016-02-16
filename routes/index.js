@@ -33,7 +33,6 @@ mongoose.connect('mongodb://localhost/ThriftyFood', function (error) {
 var conn = mongoose.connection
 Grid.mongo = mongoose.mongo;
 var gfs = Grid(conn.db);
-//TODO Add creation schema (i.e. when person first plays game, need maps to load)
 var Schema = mongoose.Schema;
 
 var FoodSchema = new Schema({
@@ -224,10 +223,6 @@ Foods.find().count(function(err, count){
     });
   }
 });
-
-app.get('/maps', function(req, res){
-  res.render('maps', {title: 'Food', script: 'maps.js'})
-})
 
 app.get('/landing', function(req, res){
   res.render('landing', {title: 'Food App', script: 'landing.js'})
@@ -467,5 +462,9 @@ app.get('/users/logout', function(req,res){
     res.redirect('/');
   });
 });
+
+app.get('/maps', function(req, res){
+  res.render('maps', {title: 'Food', script: 'maps.js'})
+})
 
 module.exports = app;
