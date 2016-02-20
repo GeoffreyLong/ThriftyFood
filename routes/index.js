@@ -35,15 +35,37 @@ Grid.mongo = mongoose.mongo;
 var gfs = Grid(conn.db);
 var Schema = mongoose.Schema;
 
+
+var UserSchema = new Schema({
+    userName: String,
+    password: String,
+    email: String,
+    // There might be a better way to do this
+    type: String,                                 // {"user", "seller"}
+    seller: {
+      currentFoodItems: [mongoose.Schema.Types.ObjectId], 
+      pastFoodItems: [mongoose.Schema.Types.ObjectId],// Is this distinction necessary? 
+    },
+});
+
+
+// Extend for "Iteration"?
+// Might be difficult with mongoDB
 var FoodSchema = new Schema({
-    portionsAvailable: Number,
-    timeRange: {start: Date, end: Date},
+    sellerId: mongoose.Schema.Types.ObjectId,
     name: String,
-    images: [String],
+    mainImg: String,
+    // images: [String],
     description: String,
     portionDefinition: String,
+    portionsAvailable: Number,
+    expiration: Date,                                 // An expected expiration date
+    //TODO will want to change this to "availibilities really
+    // For now will just forget about time range
+    // timeRange: {start: Date, end: Date},
+    timeRange: {start: Date, end: Date},
     price: Number,
-    address: {
+    address: {                                        // Could change to region
       country: String,
       state: String,
       city: String,
@@ -51,34 +73,26 @@ var FoodSchema = new Schema({
       number: String, // since you could probably have like 114A
       // TODO apt #?
     },
-    sellerId: mongoose.Schema.Types.ObjectId,
-});
-var UserSchema = new Schema({
-    userName: String,
-    password: String,
-});
-var SellerSchema = new Schema({
-    userName: String,
-    password: String,
-    currentFoodItems: [mongoose.Schema.Types.ObjectId], // necessary?
-    pastFoodItems: [mongoose.Schema.Types.ObjectId],    // necessary?
     reviews: [{
-      rating: Number,
+      rating: Number,                                   // A number between 1 and 5
       comment: String,
-      reviewerId: mongoose.Schema.Types.ObjectId,
-    }],
+      reviewerId: mongoose.Schema.Types.ObjectId,       // The ID of the reviewer
+    }]
 });
+// The purchases will most likely be over one seller
 var PurchaseSchema = new Schema({
-    foodId: mongoose.Schema.Types.ObjectId,
     userId: mongoose.Schema.Types.ObjectId,
     sellerId: mongoose.Schema.Types.ObjectId,
-    quantity: Number,
+    foods: [{
+      foodId: mongoose.Schema.Types.ObjectId,         //
+      quantity: Number,                               // The number of portions
+      //sellerId: mongoose.Schema.Types.ObjectId,     // Include? Inherent in foodId
+    }],
 });
 
 
 var Foods = mongoose.model('foods', FoodSchema);
 var Users = mongoose.model('users', UserSchema);
-var Sellers = mongoose.model('sellers', SellerSchema);
 var Purchases = mongoose.model('purchases', PurchaseSchema);
 
 
@@ -92,23 +106,25 @@ Foods.find().count(function(err, count){
     var userID1 = null;
     var userID2 = null;
     var userID3 = null;
-    var sellerID1 = null;
-    var sellerID2 = null;
     var foodID1 = null;
     var foodID2 = null;
     var foodID3 = null;
 
 
     new Users({
-      userName: "User_One",
-      password: bcrypt.hashSync("User_One", bcrypt.genSaltSync(10)),
+      userName: "Buyer_One",
+      password: bcrypt.hashSync("Buyer_One", bcrypt.genSaltSync(10)),
+      email: "user_one@domain.com",
+      type: "buyer",
     }).save(function(err,saved){
       if (err) console.log(err);
       userID1 = saved._id;
 
       new Users({
-        userName: "User_Two",
-        password: bcrypt.hashSync("User_Two", bcrypt.genSaltSync(10)),
+        userName: "Buyer_Two",
+        password: bcrypt.hashSync("asdfasdf", bcrypt.genSaltSync(10)),
+        email: "user_two@domain.com",
+        type: "buyer",
       }).save(function(err,saved){
         if (err) console.log(err);
         userID2 = saved._id;
@@ -116,103 +132,104 @@ Foods.find().count(function(err, count){
         new Users({
           userName: "Bobby_Tables",
           password: bcrypt.hashSync("hello", bcrypt.genSaltSync(10)),
-        }).save(function(err,saved){
-          if (err) console.log(err);
-          userID3 = saved._id;
-
-          new Sellers({
-            userName: "Seller_One",
-            password: bcrypt.hashSync("Seller_One", bcrypt.genSaltSync(10)),
+          email: "bobby@domain.com",
+          type: "seller",
+          seller: {
             currentFoodItems: [],
             pastFoodItems: [],
+          }
+        }).save(function(err,saved){
+          if (err) console.log(err);
+          seller_Id1 = saved._id;
+
+          new Foods({
+            portionsAvailable: 10,
+            timeRange: {start: null, end: null},
+            name: "Fish Salad Spectaculare",
+            images: ['img/food1.jpg'],
+            description: "A flaky slice of heaven that simply melts in your mouth.",
+            portionDefinition: "6oz Fish, 6oz salad",
+            price: 7.80,
+            address: {
+              country: "Canada",
+              state: "QC",
+              city: "Montreal",
+              street: "Durocher",
+              number: 3625, // since you could probably have like 114A
+            },
             reviews: [{
               rating: 1,
               comment: "I don't like her cooking... I don't care if she's my mom, she gets one star",
-              reviewerId: userID3,
+              reviewerId: userID2,
             },{
               rating: 2,
               comment: "Good kid, but Maad City",
               reviewerId: userID1,
             },],
+
+            sellerId: seller_Id1,
           }).save(function(err,saved){
             if (err) console.log(err);
-            sellerID1 = saved._id;
+            foodID1 = saved._id;
 
             new Foods({
-              portionsAvailable: 10,
+              portionsAvailable: 24,
               timeRange: {start: null, end: null},
-              name: "Fish Salad Spectaculare",
-              images: ['img/food1.jpg'],
-              description: "A flaky slice of heaven that simply melts in your mouth.",
-              portionDefinition: "6oz Fish, 6oz salad",
-              price: 7.80,
+              name: "Pancakes",
+              images: ['img/food2.jpg'],
+              description: "Buttery deliciousness; rated best in MTL (syrup optional)",
+              portionDefinition: "4 pancakes",
+              price: 5.00,
               address: {
                 country: "Canada",
                 state: "QC",
                 city: "Montreal",
                 street: "Durocher",
-                number: 3625, // since you could probably have like 114A
+                number: 3515, // since you could probably have like 114A
               },
-              sellerId: sellerID1,
+              sellerId: seller_Id1,
             }).save(function(err,saved){
               if (err) console.log(err);
-              foodID1 = saved._id;
-
+              foodID2 = saved._id;
               new Foods({
-                portionsAvailable: 24,
+                portionsAvailable: 1,
                 timeRange: {start: null, end: null},
-                name: "Pancakes",
-                images: ['img/food2.jpg'],
-                description: "Buttery deliciousness; rated best in MTL (syrup optional)",
-                portionDefinition: "4 pancakes",
-                price: 5.00,
+                name: "Ambrosia",
+                images: ['img/food3.jpg'],
+                description: "It's got bits of real panther in it",
+                portionDefinition: "A dash",
+                price: 10000.00,
                 address: {
                   country: "Canada",
                   state: "QC",
                   city: "Montreal",
-                  street: "Durocher",
-                  number: 3515, // since you could probably have like 114A
+                  street: "Aylmer",
+                  number: 2500, // since you could probably have like 114A
                 },
-                sellerId: sellerID1,
+                sellerId: seller_Id1,
               }).save(function(err,saved){
                 if (err) console.log(err);
-                foodID2 = saved._id;
-                new Foods({
-                  portionsAvailable: 1,
-                  timeRange: {start: null, end: null},
-                  name: "Ambrosia",
-                  images: ['img/food3.jpg'],
-                  description: "It's got bits of real panther in it",
-                  portionDefinition: "A dash",
-                  price: 10000.00,
-                  address: {
-                    country: "Canada",
-                    state: "QC",
-                    city: "Montreal",
-                    street: "Aylmer",
-                    number: 2500, // since you could probably have like 114A
-                  },
-                  sellerId: sellerID1,
+                foodID3 = saved._id;
+                new Purchases({
+                  userId: userID1,
+                  sellerId: seller_Id1,
+                  foods: [{
+                    foodId: foodID1,
+                    quantity: 5,
+                  }],
                 }).save(function(err,saved){
                   if (err) console.log(err);
-                  foodID3 = saved._id;
+                  // console.log(JSON.stringify(saved));
                   new Purchases({
-                    foodId: foodID1,
-                    userId: userID1,
-                    sellerId: sellerID1,
-                    quantity: 5,
+                    userId: userID2,
+                    sellerId: seller_Id1,
+                    foods: [{
+                      foodId: foodID2,
+                      quantity: 1,
+                    }],
                   }).save(function(err,saved){
                     if (err) console.log(err);
                     // console.log(JSON.stringify(saved));
-                    new Purchases({
-                      foodId: foodID1,
-                      userId: userID3,
-                      sellerId: sellerID1,
-                      quantity: 1,
-                    }).save(function(err,saved){
-                      if (err) console.log(err);
-                      // console.log(JSON.stringify(saved));
-                    });
                   });
                 });
               });
