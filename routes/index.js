@@ -57,8 +57,7 @@ var UserSchema = new Schema({
 var FoodSchema = new Schema({
     sellerId: mongoose.Schema.Types.ObjectId,
     name: String,
-    mainImg: String,
-    // images: [String],
+    images: [String],
     description: String,
     portionDefinition: String,
     portionsAvailable: Number,
