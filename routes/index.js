@@ -1,6 +1,9 @@
 //TODOs
 //  Remove the redundancy in login and creating users
 //    The logic is basically duplicated
+// TODO MAJOR TODO
+//    Update all the logic to reflect the new database configuration
+//    That is a lot of stuff
 
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
@@ -261,7 +264,7 @@ app.get('/', function(req, res) {
       }
 
       // TODO test
-      Sellers.aggregate([{$match: {_id: {$in: sellerIds}}},
+      Users.aggregate([{$match: {_id: {$in: sellerIds}}},
                         {$unwind: "$reviews"},
                         {$group: {_id:"$_id", userName:{$first: "$userName"},
                                    avgRating: {$avg: "$reviews.rating"}}}] , function(err2,seller){
@@ -344,64 +347,52 @@ app.get('/users/new', function(req,res){
 
 
 // TODO handle mismatching passwords in javascript file
+// This will handle both the user and seller additions
+// If the req.body has a 'usersubmit' then it is a user
+// In this case the type for the db and usage will be user, else it is seller
 app.post('/users/submit', function(req, res){
   console.log(req.body);
   console.log(JSON.stringify(req.body));
-  if ('usersubmit' in req.body){
-    bcrypt.genSalt(10, function(err, salt) {
-        bcrypt.hash(req.body.password, salt, function(err, hash) {
-          if (err){
-            console.log(err);
-            res.status(500).send(err);
-          }
+  bcrypt.genSalt(10, function(err, salt) {
+    bcrypt.hash(req.body.password, salt, function(err, hash) {
+      if (err){
+        console.log(err);
+        res.status(500).send(err);
+      }
+      
+      var type = 'seller';
+      if ('usersubmit' in req.body){
+        type= 'user';
+      }
 
-          new Users({
-            userName: req.body.username,
-            password: hash,
-          }).save(function(err,saved){
-            if (err){
-              console.log(err);
-              res.status(500).send(err);
-            }
-            req.session.userId = saved._id;
-            req.session.userName = saved.userName;
-            req.session.type = 'user';
-            res.redirect("/");
-          });
-        });
+      new Users({
+        userName: req.body.username,
+        password: hash,
+        type: type,
+      }).save(function(err,saved){
+        if (err){
+          console.log(err);
+          res.status(500).send(err);
+        }
+        req.session.userId = saved._id;
+        req.session.userName = saved.userName;
+        if ('usersubmit' in req.body){
+          req.session.type = type;
+        }
+        else{
+          req.session.type = type;
+        }
+        res.redirect("/");
+      });
     });
-  }
-  else{
-    bcrypt.genSalt(10, function(err, salt) {
-        bcrypt.hash(req.body.password, salt, function(err, hash) {
-          if (err){
-            console.log(err);
-            res.status(500).send(err);
-          }
-
-          new Sellers({
-            userName: req.body.username,
-            password: hash,
-          }).save(function(err,saved){
-            if (err){
-              console.log(err);
-              res.status(500).send(err);
-            }
-            req.session.userId = saved._id;
-            req.session.userName = saved.userName;
-            req.session.type = 'seller';
-            res.redirect("/");
-          });
-        });
-    });
-  }
+  });
 });
 
 app.get('/seller/:id', function(req,res){
   var sellerId = req.params.sellerId;
 
 
-  Sellers.findById(sellerId, function(err,seller){
+  Users.findById(sellerId, function(err,seller){
     if (err){
       console.log(err);
       res.status(500).send(err);
