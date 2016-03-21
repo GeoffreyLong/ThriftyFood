@@ -2,22 +2,10 @@
 // Also fix the username < 5 but still entering bug
 $(document).ready(function(){
   $('body').on('keyup', 'input', function(){
-    var userName = null;
-    var pass = null;
-    var passCheck = null;
-    var submitBtn = null;
-    if ($(this).hasClass('seller')){
-      userName = $('#sellerUserField');
-      pass = $('#sellerPass');
-      passCheck = $('#sellerPassCheck');
-      submitBtn = $('#sellerSubmit'); 
-    }
-    else{
-      userName = $('#buyerUserField');
-      pass = $('#buyerPass');
-      passCheck = $('#buyerPassCheck');
-      submitBtn = $('#buyerSubmit');
-    }
+    var userName = $('#username');
+    var pass = $('#password');
+    var passCheck = $('#passwordCheck');
+    var submitBtn = $('#submit');
 
     if ($(this).val().length < 5 && $(this).val().length != 0){
       $(this).addClass('invalid');

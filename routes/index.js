@@ -359,9 +359,10 @@ app.post('/users/submit', function(req, res){
         res.status(500).send(err);
       }
       
-      var type = 'seller';
-      if ('usersubmit' in req.body){
-        type= 'user';
+      var type = 'user';
+      if ('isSeller' in req.body){
+        type = 'seller';
+        console.log("WOWOW");
       }
 
       new Users({
