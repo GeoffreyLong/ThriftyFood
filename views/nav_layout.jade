@@ -11,7 +11,7 @@ block nav
   nav(class=['blue-grey darken-2'])
     div(class='nav-wrapper')
       div(class='std-margins')
-        a(href='/', class='brand-logo') FOOD
+        a(href='/', class='brand-logo') FOOD MATCH
         ul(class=['right', 'hide-on-med-and-down'])
           - if(curUserType == 'seller')
             li
@@ -30,8 +30,6 @@ block nav
               a(class=['dropdown-button', 'btn'], href='/seller/' + curUserId) #{curUserName}
             - else
               a(class=['dropdown-button', 'btn'], href='#') #{curUserName}
-              
-              //a(class=['dropdown-button', 'btn'], href='#', data-activates='user-dropdown') #{curUserName}
 
 block footer
   div(class=['fixed-action-btn', 'food-action-btn'])
