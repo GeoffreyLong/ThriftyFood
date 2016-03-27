@@ -39,18 +39,18 @@ mixin food_display(food, img_path)
 
       span(class='content-bottom')
         div(class=['row'])
-          form(action='', method='POST', id='payment-form')
+          form(action='/purchase/create', method='POST', id='payment-form')
             span(class='payment-errors')
             div(class='row')
               div(class=['col', 's6'])
-                input(name='number', placeholder='Credit Card Number')
+                input(placeholder='Credit Card Number', data-stripe='number')
               div(class=['col', 's6'])
-                input(name='cvc', placeholder='CVC')
+                input(placeholder='CVC', data-stripe='cvc')
             div(class='row')
               div(class=['col', 's6'])
-                input(type='text', name='exp-date', placeholder='Expiration Date')
+                input(type='text', placeholder='Expiration Year', data-stripe='exp-year')
               div(class=['col', 's6'])
-                input(type='text', name='exp-month', placeholder='Expiration Month')
+                input(type='text', placeholder='Expiration Month', data-stripe='exp-month')
             button(class=['btn-large', 'waves-effect',
-              'waves-light', 'col', 's12'], type='submit', name='action') Purchase your food.
+              'waves-light', 'col', 's12'], type='submit') Purchase your food.
               i(class=['material-icons', 'right']) send

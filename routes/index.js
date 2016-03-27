@@ -461,6 +461,10 @@ app.post('/users/login', function(req,res){
   })
 });
 
+app.post('/purchase/create', function(req, res) {
+  res.redirect('/');
+});
+
 
 app.get('/users/logout', function(req,res){
   // TODO not sure if this is the best way to handle this
