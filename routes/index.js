@@ -46,8 +46,9 @@ var UserSchema = new Schema({
     // There might be a better way to do this
     type: String,                                 // {"user", "seller"}
     seller: {
-      currentFoodItems: [mongoose.Schema.Types.ObjectId], 
-      pastFoodItems: [mongoose.Schema.Types.ObjectId],// Is this distinction necessary? 
+      stripeID: String,
+      currentFoodItems: [mongoose.Schema.Types.ObjectId],
+      pastFoodItems: [mongoose.Schema.Types.ObjectId],// Is this distinction necessary?
     },
 });
 
@@ -340,8 +341,15 @@ app.post('/food/submit', upload.any('test'), function(req, res){
 
 })
 
-app.get('/users/new', function(req,res){
-  res.render('newuser', {script: 'newuser.js'})
+app.get('/users/new_seller', function(req,res){
+  res.render('new_seller')
+});
+
+app.get('/users/new_seller/connected', function(req, res) {
+  //TODO use stripe auth-id in headers and redirect to create-account form
+  console.log('test');
+  console.log(JSON.stringify(req.params));
+  res.redirect('/users/new_seller')
 });
 
 
@@ -358,7 +366,7 @@ app.post('/users/submit', function(req, res){
         console.log(err);
         res.status(500).send(err);
       }
-      
+
       var type = 'user';
       if ('isSeller' in req.body){
         type = 'seller';
