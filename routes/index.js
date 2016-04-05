@@ -17,6 +17,7 @@ var multer = require('multer');
 // var upload = multer({ dest: 'tmp/' }); //TODO pUPLOADS
 var upload = multer({ dest: 'public/img/' });
 var bcrypt = require('bcrypt');
+var request = require('request');
 
 var app = express();
 
@@ -46,7 +47,7 @@ var UserSchema = new Schema({
     // There might be a better way to do this
     type: String,                                 // {"user", "seller"}
     seller: {
-      stripeID: String,
+      stripeID: String, //stripe account id
       currentFoodItems: [mongoose.Schema.Types.ObjectId],
       pastFoodItems: [mongoose.Schema.Types.ObjectId],// Is this distinction necessary?
     },
@@ -347,9 +348,27 @@ app.get('/users/new_seller', function(req,res){
 
 app.get('/users/new_seller/connected', function(req, res) {
   //TODO use stripe auth-id in headers and redirect to create-account form
-  console.log('test');
-  console.log(JSON.stringify(req.params));
-  res.redirect('/users/new_seller')
+  //TODO error handling
+  var scope = req.query.scope;
+  var stripeAuthenticationCode = req.query.code;
+
+  console.log(JSON.stringify(scope));
+  console.log(JSON.stringify(stripeAuthenticationCode));
+
+  request.post({
+    url: "https://connect.stripe.com/oauth/token",
+    form: {
+      grant_type: "authorization_code",
+      code: stripeAuthenticationCode,
+      client_secret: "sk_test_an3Nezne8XguJAefiBJgNV63"
+    }, function(err, response, body) {
+      
+      //FIXME no response is being received
+      // var oauthToken = JSON.parse(body).access_token;
+      console.log(body);
+      res.redirect('/users/new_seller');
+    }
+  });
 });
 
 
