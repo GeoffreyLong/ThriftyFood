@@ -6,11 +6,11 @@ var UserSchema = new Schema({
     password: String,
     email: String,
     // There might be a better way to do this
-    type: String,                                 // {"user", "seller"}
+    type: String,
+    currentFoodItems: [mongoose.Schema.Types.ObjectId],
+    pastFoodItems: [mongoose.Schema.Types.ObjectId],
     seller: {
       stripeID: String, //stripe account id
-      currentFoodItems: [mongoose.Schema.Types.ObjectId],
-      pastFoodItems: [mongoose.Schema.Types.ObjectId],// Is this distinction necessary?
     },
 });
 

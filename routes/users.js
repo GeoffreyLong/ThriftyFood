@@ -1,4 +1,6 @@
 var Users = require('../models/users');
+var Foods = require('../models/foods');
+
 var express = require('express');
 var router = express.Router();
 var bcrypt = require('bcrypt');
@@ -80,6 +82,7 @@ router.get('/logout', function(req, res){
     res.redirect('/');
   });
 });
+
 
 //stripe oauth callback
 router.get('/new_seller/connected', function(req, res) {
@@ -169,18 +172,23 @@ router.post('/submit', function(req, res){
 });
 
 //FIXME wrong prefix
-router.get('/seller/:id', function(req,res){
-  var sellerId = req.params.sellerId;
+router.get('/:id', function(req, res) {
+  var userId = req.params.id;
 
-
-  Users.findById(sellerId, function(err,seller){
-    if (err){
+  Users.findById(userId, function(err, user){
+    if (err) {
       console.log(err);
       res.status(500).send(err);
     }
-    else{
-      // Any more information needed?
-      res.render('seller', { seller:seller });
+    else {
+      var currentFoods = [];
+      for (var i = 0; i < user.currentFoodItems.length; i++) {
+        Foods.findById(user.currentFoodItems[i], function (err, food) {
+          currentFoods.push(food);
+        });
+      }
+      //TODO different pages for seller/buyer
+      res.render('user', {currentFoods: currentFoods});
     }
   });
 });

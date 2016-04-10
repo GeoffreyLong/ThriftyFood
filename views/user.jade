@@ -1,3 +1,15 @@
 extends nav_layout
 
+-
+  open_orders = user.currentFoods
+//  closed_orders = user.pastFoodItems
+
 block content
+  div.container
+    ul.collection.with-header
+      li.collection-header
+        h4 Open Orders
+    ul.collection.with-header
+      li.collection-header
+        h4 Closed Orders
+
