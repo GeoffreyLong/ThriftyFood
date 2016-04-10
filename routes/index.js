@@ -19,6 +19,10 @@ var upload = multer({ dest: 'public/img/' });
 var bcrypt = require('bcrypt');
 var request = require('request');
 
+var Users = require('../models/users');
+var Foods = require('../models/foods');
+var Purchases = require('../models/purchases');
+
 var app = express();
 
 app.use(cookieParser());
@@ -37,68 +41,6 @@ mongoose.connect('mongodb://localhost/ThriftyFood', function (error) {
 var conn = mongoose.connection
 Grid.mongo = mongoose.mongo;
 var gfs = Grid(conn.db);
-var Schema = mongoose.Schema;
-
-
-var UserSchema = new Schema({
-    userName: String,
-    password: String,
-    email: String,
-    // There might be a better way to do this
-    type: String,                                 // {"user", "seller"}
-    seller: {
-      stripeID: String, //stripe account id
-      currentFoodItems: [mongoose.Schema.Types.ObjectId],
-      pastFoodItems: [mongoose.Schema.Types.ObjectId],// Is this distinction necessary?
-    },
-});
-
-
-// Extend for "Iteration"?
-// Might be difficult with mongoDB
-var FoodSchema = new Schema({
-    sellerId: mongoose.Schema.Types.ObjectId,
-    name: String,
-    images: [String],
-    description: String,
-    portionDefinition: String,
-    portionsAvailable: Number,
-    expiration: Date,                                 // An expected expiration date
-    //TODO will want to change this to "availibilities really
-    // For now will just forget about time range
-    // timeRange: {start: Date, end: Date},
-    timeRange: {start: Date, end: Date},
-    price: Number,
-    address: {                                        // Could change to region
-      country: String,
-      state: String,
-      city: String,
-      street: String,
-      number: String, // since you could probably have like 114A
-      // TODO apt #?
-    },
-    reviews: [{
-      rating: Number,                                   // A number between 1 and 5
-      comment: String,
-      reviewerId: mongoose.Schema.Types.ObjectId,       // The ID of the reviewer
-    }]
-});
-// The purchases will most likely be over one seller
-var PurchaseSchema = new Schema({
-    userId: mongoose.Schema.Types.ObjectId,
-    sellerId: mongoose.Schema.Types.ObjectId,
-    foods: [{
-      foodId: mongoose.Schema.Types.ObjectId,         //
-      quantity: Number,                               // The number of portions
-      //sellerId: mongoose.Schema.Types.ObjectId,     // Include? Inherent in foodId
-    }],
-});
-
-
-var Foods = mongoose.model('foods', FoodSchema);
-var Users = mongoose.model('users', UserSchema);
-var Purchases = mongoose.model('purchases', PurchaseSchema);
-
 
 // Temporary code for seeding
 Foods.find().count(function(err, count){
