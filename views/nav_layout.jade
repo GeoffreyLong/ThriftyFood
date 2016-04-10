@@ -31,7 +31,7 @@ block nav
               a(href='/users/logout') LOGOUT
             - if(curUserType == 'seller')
               li
-                a(class=['dropdown-button', 'btn'], href='/seller/' + curUserId) #{curUserName}
+                a(class=['dropdown-button', 'btn'], href='/users/' + curUserId) #{curUserName}
             - else
               li
                 a(class=['dropdown-button', 'btn'], href='#', data-activities='user-dropdown') #{curUserName}
