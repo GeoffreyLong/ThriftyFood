@@ -1,15 +1,17 @@
 var Foods = require('../models/foods');
 var express = require('express');
 var router = express.Router();
+var multer = require('multer');
+var upload = multer({ dest: 'public/img/' });
 
 //new food page
-app.get('/new', function(req, res){
+router.get('/new', function(req, res){
   res.render('new_food', {script: 'new_food.js', curUserName: req.session.userName,
                         curUserType: req.session.type, curUserId: req.session.userId, script: 'new_food.js'});
 });
 
 //create new food
-app.post('/submit', upload.any('test'), function(req, res){
+router.post('/submit', upload.any('test'), function(req, res){
   //console.log(req.body);
   //console.log(req.files);
 
@@ -63,3 +65,5 @@ app.post('/submit', upload.any('test'), function(req, res){
   //});
 
 });
+
+module.exports = router;
