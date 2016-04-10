@@ -283,8 +283,8 @@ app.get('/', function(req, res) {
 });
 
 app.get('/food/new', function(req, res){
-  res.render('newfood', {script: 'newfood.js', curUserName: req.session.userName,
-                        curUserType: req.session.type, curUserId: req.session.userId, script: 'newfood.js'});
+  res.render('new_food', {script: 'new_food.js', curUserName: req.session.userName,
+                        curUserType: req.session.type, curUserId: req.session.userId, script: 'new_food.js'});
 })
 
 app.post('/food/submit', upload.any('test'), function(req, res){
@@ -342,8 +342,9 @@ app.post('/food/submit', upload.any('test'), function(req, res){
 
 })
 
-app.get('/users/new_seller', function(req,res){
-  res.render('new_seller')
+//new user page
+app.get('/users/new_user', function(req, res){
+  res.render('new_seller', {script: 'new_user.js'});
 });
 
 app.get('/users/new_seller/connected', function(req, res) {
@@ -362,7 +363,7 @@ app.get('/users/new_seller/connected', function(req, res) {
       code: stripeAuthenticationCode,
       client_secret: "sk_test_an3Nezne8XguJAefiBJgNV63"
     }, function(err, response, body) {
-      
+
       //FIXME no response is being received
       // var oauthToken = JSON.parse(body).access_token;
       console.log(body);
