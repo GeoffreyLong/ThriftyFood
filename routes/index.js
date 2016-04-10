@@ -274,7 +274,7 @@ app.get('/', function(req, res) {
           console.log(err2);
           res.status(500).send(err2);
         }
-        res.render('index', { title: 'Food App', script: 'index.js',
+        res.render('index', { title: 'Vesta', script: 'index.js',
                               foods:foods, seller:seller, curUserName: req.session.userName,
                               curUserType: req.session.type, curUserId: req.session.userId});
       });
@@ -344,7 +344,7 @@ app.post('/food/submit', upload.any('test'), function(req, res){
 
 //new user page
 app.get('/users/new_user', function(req, res){
-  res.render('new_seller', {script: 'new_user.js'});
+  res.render('new_user', {script: 'new_user.js'});
 });
 
 app.get('/users/new_seller/connected', function(req, res) {
@@ -352,9 +352,12 @@ app.get('/users/new_seller/connected', function(req, res) {
   //TODO error handling
   var scope = req.query.scope;
   var stripeAuthenticationCode = req.query.code;
+  var userId = req.session.userId;
 
   console.log(JSON.stringify(scope));
   console.log(JSON.stringify(stripeAuthenticationCode));
+  console.log(JSON.stringify(req.session, null, 2));
+  console.log(JSON.stringify(req.session.userId, null, 2));
 
   request.post({
     url: "https://connect.stripe.com/oauth/token",
@@ -362,12 +365,26 @@ app.get('/users/new_seller/connected', function(req, res) {
       grant_type: "authorization_code",
       code: stripeAuthenticationCode,
       client_secret: "sk_test_an3Nezne8XguJAefiBJgNV63"
-    }, function(err, response, body) {
-
+    }, function (err, response, body) {
       //FIXME no response is being received
-      // var oauthToken = JSON.parse(body).access_token;
-      console.log(body);
-      res.redirect('/users/new_seller');
+      //stripe auth failure
+      if (err) {
+        //TODO redirect to fail page
+        res.redirect('/');
+      }
+
+      //stripe auth success, update account info, redirect to homepage
+      else {
+        console.log(body);
+        var oauthToken = JSON.parse(body).access_token;
+        Users.findByIdAndUpdate(userId, {
+          $set: {
+            'user.seller.stripeId': oauthToken
+          }
+        }, function (err, user) {
+          res.redirect('/');
+        });
+      }
     }
   });
 });
