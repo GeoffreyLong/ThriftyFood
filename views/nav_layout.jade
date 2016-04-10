@@ -2,40 +2,37 @@ extends base_layout
 include mixins/users
 
 block nav
-  ul(id='user-dropdown', class='dropdown-content')
-    li
-      a(href='#!') Profile
-    li(class='divider')
-    li
-      a(href='/users/logout') Logout
+  //drop down menu for logged in users
+  //ul(id='user-dropdown', class='dropdown-content')
+  //  li
+  //    a(href='#!') Become seller
+  //  li(class='divider')
+  //  li
+  //    a(href='/users/logout') Logout
     
   nav(class=['blue-grey darken-2'])
     div(class='nav-wrapper')
       div(class='std-margins')
         a(href='/', class='brand-logo') VESTA
         ul(class=['right', 'hide-on-med-and-down'])
+          //li
+          //  a(href='foods/new') SELL
           - if(curUserType == 'seller')
             li
               a(href='/food/new') SELL
-          - else
-            li
-              +stripe_connect_link('SELL', curUserId)
           - if(!curUserName)
             li
               a(href='/users/new_user') CREATE ACCOUNT
             li
               a(href='/users/login') LOGIN
           - else
-            - var userEndpoint = '/users/' + curUserId
+            - if(!(curUserType == 'seller'))
+              li
+                +stripe_connect_link('CONNECT TO STRIPE', curUserId)
             li
               a(href='/users/logout') LOGOUT
-            - if(curUserType == 'seller')
-              li
-                a(class=['dropdown-button', 'btn'], href='/users/' + curUserId) #{curUserName}
-            - else
-              li
-                a(class=['dropdown-button', 'btn'], href='#', data-activities='user-dropdown') #{curUserName}
-              
+            li
+              a(class=['btn'], href='/users/' + curUserId) #{curUserName}
 
 block footer
   div(class=['fixed-action-btn', 'food-action-btn'])

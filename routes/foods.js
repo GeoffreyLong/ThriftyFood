@@ -38,32 +38,30 @@ router.post('/submit', upload.any('test'), function(req, res){
 
   //writestream.on('close', function (file) {
   //  console.log(file.filename + ' written To DB');
-    new Foods({
-      portionsAvailable: req.body.portions,
-      timeRange: {start: startDate, end: endDate},
-      name: req.body.name,
-  //    images: [file._id],        //TODO pUPLOADS
-      images: [cPhotoName],        // For now we will use the simple way
-                                   // idk if the other way is even better
-      description: req.body.description,
-      portionDefinition: req.body.portionDef,
-      address: {
-        country: req.body.country,
-        state: req.body.state,
-        city: req.body.city,
-        street: req.body.street,
-        number: req.body.number,
-      },
-      sellerId: req.session.userId,
-    }).save(function(err,saved){
-      if (err){
-        console.log(err);
-        res.status(500).send(err);
-      }
-      res.redirect("/");
-    });
-  //});
-
+  var submittedFood = new Foods({
+    portionsAvailable: req.body.portions,
+    timeRange: {start: startDate, end: endDate},
+    name: req.body.name,
+//    images: [file._id],        //TODO pUPLOADS
+    images: [cPhotoName],        // For now we will use the simple way
+                                 // idk if the other way is even better
+    description: req.body.description,
+    portionDefinition: req.body.portionDef,
+    address: {
+      country: req.body.country,
+      state: req.body.state,
+      city: req.body.city,
+      street: req.body.street,
+      number: req.body.number,
+    },
+    sellerId: req.session.userId,
+  }).save(function(err,saved){
+    if (err){
+      console.log(err);
+      res.status(500).send(err);
+    }
+    res.redirect("/");
+  });
 });
 
 module.exports = router;
