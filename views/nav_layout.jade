@@ -17,22 +17,22 @@ block nav
         ul(class=['right', 'hide-on-med-and-down'])
           //li
           //  a(href='foods/new') SELL
-          - if(curUserType == 'seller')
+          - if(session.type == 'seller')
             li
               a(href='/food/new') SELL
-          - if(!curUserName)
+          - if(!session.userName)
             li
               a(href='/users/new_user') CREATE ACCOUNT
             li
               a(href='/users/login') LOGIN
           - else
-            - if(!(curUserType == 'seller'))
+            - if(!(session.type == 'seller'))
               li
                 +stripe_connect_link('CONNECT TO STRIPE', curUserId)
             li
               a(href='/users/logout') LOGOUT
             li
-              a(class=['btn'], href='/users/' + curUserId) #{curUserName}
+              a(class=['btn'], href='/users/' + session.userId) #{session.userName}
 
 block footer
   div(class=['fixed-action-btn', 'food-action-btn'])

@@ -67,13 +67,18 @@ app.get('/', function(req, res) {
                         {$group: {_id:"$_id", userName:{$first: "$userName"},
                                    avgRating: {$avg: "$reviews.rating"}}}] , function(err2,seller){
 
-        if (err2){
+        if (err2) {
           console.log(err2);
           res.status(500).send(err2);
         }
-        res.render('index', { title: 'Vesta', script: 'index.js',
-                              foods:foods, seller:seller, curUserName: req.session.userName,
-                              curUserType: req.session.type, curUserId: req.session.userId});
+
+        res.render('index', {
+          title: 'Vesta',
+          script: 'index.js',
+          foods: foods,
+          seller: seller,
+          session: req.session
+        });
       });
     }
   });

@@ -7,13 +7,16 @@ var bcrypt = require('bcrypt');
 var request = require('request');
 
 //login page
-router.get('/login', function(req,res){
-  res.render('login');
+router.get('/login', function(req, res){
+  res.render('login', {session: req.session});
 });
 
 //new user page
 router.get('/new_user', function(req, res){
-  res.render('new_user', {script: 'new_user.js'});
+  res.render('new_user', {
+    script: 'new_user.js',
+    session: req.session
+  });
 });
 
 // TODO this needs work... better error handling, etc
@@ -166,7 +169,7 @@ router.post('/submit', function(req, res){
   });
 });
 
-//FIXME wrong prefix
+//get user by id
 router.get('/:id', function(req, res) {
   var userId = req.params.id;
 
