@@ -186,7 +186,10 @@ router.get('/:id', function(req, res) {
         });
       }
       //TODO different pages for seller/buyer
-      res.render('user', {currentFoods: currentFoods});
+      res.render('user', {
+        session: req.session,
+        currentFoods: currentFoods
+      });
     }
   });
 });
