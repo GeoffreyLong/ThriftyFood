@@ -1,20 +1,20 @@
 //creates a login form with username, password fields that hits /users/submit
-mixin login_card()
-  div(class=['row', 'vertical-center'])
-    div(class=['col', 's12'])
-      div(class='card')
-        div(class='card-content')
+mixin create_account_card()
+  div.row.vertical-center
+    div.col.s12
+      div.card
+        div.card-content
           form(name='new_seller', action='/users/submit', method='post')
-            div(class='row')
-              div(class=['input-field'])
+            div.row
+              div.input-field
                 input(type="text", name="username", id="username", placeholder='Username')
-            div(class='row')
-              div(class='input-field')
+            div.row
+              div.input-field
                 input(type="password", id="password", name="password", placeholder='Password')
-            div(class='row')
-              div(class='input-field')
+            div.row
+              div.input-field
                 input(type="password", id="passwordCheck", name="password2", placeholder='Re-enter password')
-            div(class='row')
-              button(class=['btn-large', 'waves-effect',
-                'waves-light', 'col', 's12', 'newUserSubmit'], id = 'submit', type='submit', name='submit', disabled = 'true') Create Account
-                i(class=['material-icons', 'right']) send
+            div.row
+              button.btn-large.waves-effect.waves-light.col.s12.newUserSubmit(id='submit',
+                  type='submit', name='submit', disabled = 'true') Create Account
+                i.material-icons.right send

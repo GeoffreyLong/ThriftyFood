@@ -1,57 +1,54 @@
 extends nav_layout
 
 block content
-  div(class='container')
-    div(class='card')
-      div(class='card-content')
+  div.container
+    div.card
+      div.card-content
         form(name='newFood', action='/foods/submit', method='post', enctype="multipart/form-data")
 
-          div(class='row')
-            div(class=['input-field'])
+          div.row
+            div.input-field
               input(type='text', placeholder='Food Name', name='name')
-          div(class=['row'])
-            div(class=['input-field'])
+          div.row
+            div.input-field
               input(type='text', placeholder='Food Description', name='description')
 
-          div(class=['row'])
-            div(class=['file-field', 'input-field'])
-              div(class=['btn'])
+          div.row
+            div.file-field.input-field
+              div.btn
                 span File
                 input(type='file', name='coverImage')
-              div(class='file-path-wrapper')
+              div.file-path-wrapper
                 input(class=['file-path', 'validate'], type='text', placeholder='Cover Photo', name='imgFile')
 
-          div(class=['row'])
-            div(class=['input-field', 'col', 's6'])
+          div.row
+            div.input-field.col.s6
               input(type='text', placeholder='Portions Available', name='portions')
-            div(class=['input-field', 'col', 's6'])
+            div.input-field.col.s6
               input(type='text', placeholder='Portion Size (pieces, grams, liters, etc)', name='portionDef')
 
-          div(class='row')
-            div(class=['input-field', 'col', 's4'])
+          div.row
+            div.input-field.col.s4
               input(type='date', placeholder='Date', name='date')
-            div(class=['input-field', 'col', 's4'])
+            div.input-field.col.s4.
               input(type='time', placeholder='Start time', name='startTime')
-            div(class=['input-field', 'col', 's4'])
+            div.input-field.col.s4
               input(type='time', placeholder='End time', name='endTime')
 
-          div(class='row')
-            div(class=['input-field', 'col', 's4'])
+          div.row
+            div.input-field.col.s4
               input(type='text', placeholder='Country', name='country')
-            div(class=['input-field', 'col', 's4'])
+            div.input-field.col.s4
               input(type='text', placeholder='State or Province', name='state')
-            div(class=['input-field', 'col', 's4'])
+            div.input-field.col.s4
               input(type='text', placeholder='City', name='city')
 
-          div(class='row')
-            div(class=['input-field', 'col', 's6'])
+          div.row
+            div.input-field.col.s6
               input(type='text', placeholder='Street', name='street')
-            div(class=['input-field', 'col', 's6'])
+            div.input-field.col.s6
               input(type='text', placeholder='Number', name='number')
 
-          div(class='row')
-            //div(class=['input-field', 'col', 's6'])
-            //  input(type='submit', value='submit')
-            button(class=['btn-large', 'waves-effect',
-              'waves-light', 'col', 's12'], type='submit', name='action') Submit Your Food
+          div.row
+            button.btn-large.waves-effect.waves-light.col.s12(type='submit', name='action') Submit Your Food
               i(class=['material-icons', 'right'])

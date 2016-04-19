@@ -10,13 +10,11 @@ block nav
   //  li
   //    a(href='/users/logout') Logout
     
-  nav(class=['blue-grey darken-2'])
-    div(class='nav-wrapper')
-      div(class='std-margins')
-        a(href='/', class='brand-logo') VESTA
-        ul(class=['right', 'hide-on-med-and-down'])
-          //li
-          //  a(href='foods/new') SELL
+  nav.blue-grey.darken-2
+    div.nav-wrapper
+      div.std-margins
+        a.brand-logo(href='/') VESTA
+        ul.right.hide-on-med-and-down
           - if(session.type == 'seller')
             li
               a(href='/food/new') SELL
@@ -35,30 +33,30 @@ block nav
               a(class=['btn'], href='/users/' + session.userId) #{session.userName}
 
 block footer
-  div(class=['fixed-action-btn', 'food-action-btn'])
-    a(class=['btn', 'btn-floating', 'btn-large', 'teal', 'waves-effect'])
-      i(class='material-icons') more_vert
+  div.fixed-action-btn.food-action-btn
+    a.btn.btn-floating.btn-large.teal.waves-effect
+      i.material-icons more_vert
 
     ul
-      li(class=['btn-floating', 'blue'])
-        a(href='/', class=['waves-effect'])
-          i(class='material-icons') home
+      li.btn-floating.blue
+        a.waves-effect(href='/')
+          i.material-icons home
 
-      li(class=['btn-floating', 'red'])
-        a(href='#help-modal', class=['modal-trigger', 'waves-effect', 'waves-green'])
-          i(class='material-icons') help
+      li.btn-floating.red
+        a.modal-trigger.waves-effect.waves-green(href='#help-modal')
+          i.material-icons help
 
-      li(class=['btn-floating green'])
-        a(href='mailto:charlielbloomfield@gmail.com?Subject=Food%20App')
-          i(class='material-icons') email
+      li.btn-floating.green
+        a(href='mailto:charlielbloomfield@gmail.com?Subject=Vesta')
+          i.material-icons email
 
-      li(class=['btn-floating', 'grey', 'darken-3'])
+      li.btn-floating.grey.darken-3
         a(href='https://github.com/GeoffreyLong/ThriftyFood')
-          i(class=['fa', 'fa-github'])
+          i.fa.fa-github
 
-  div(id='help-modal', class=['modal', 'bottom-sheet'])
-    div(class='modal-content')
-      div(class='right')
-        a(href='#!', class=['modal-action', 'modal-close'])
-          i(class=['material-icons', 'small']) close
+  div.modal.bottom-sheet(id='help-modal')
+    div.modal-content
+      div.right
+        a.modal-action.modal-close(href='#!')
+          i.material-icons.small close
       h4 Welcome to the help panel.
