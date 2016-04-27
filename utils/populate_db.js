@@ -1,6 +1,7 @@
 var Foods = require('../models/foods');
 var Users = require('../models/users');
 var Purchases = require('../models/purchases');
+var bcrypt = require('bcrypt');
 
 // Temporary code for seeding
 var exec = function () {
